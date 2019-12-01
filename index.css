@@ -12,11 +12,14 @@ h1 { text-align: center;
 }
 a:link {
     text-decoration: none;
-  }
-a {
     font-family: 'Jura', sans-serif;
     color:  #585481;
-    font-size: 30px;
+    font-size: 25px;
+  }
+.special {
+    font-family: 'Jura', sans-serif;
+    color:  #9e20d8;
+    font-size: 40px;
 }
 a:hover {
     color: rgb(179, 142, 163)
@@ -26,3 +29,7 @@ hr {
     border: 2px solid rgb(139, 76, 86);
     margin-bottom: 10px;
   }
+
+p{
+    margin:0px;
+}

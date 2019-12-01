@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="./links.css">
+</head>
+<body>
+    <h1>
+        Autonomous basketball hoop </h1>
+    <hr>
+
+    <h2>tldr;</h2>
+    <p>I made a basketball hoop that moves toward the ball</p>
+
+    <h2>Backstory</h2>
+    <p> This was a project I did with 5 other of my friends at as an internship with AC Kinetics in Bedford NY. The goal of the project 
+        was to make a basketball hoop that moves in one dimension to attempt to 'catch' the basketball. Documentation
+        was kind of lacking but I'll see what I got. (I mainly worked on designing, hardware, and a little on the coding side)
+    </p>
+
+
+    <h2>Some planning and CADing</h2>
+    <p> Estimating plausibility of goal</p>
+    <center>
+            <img src = "../media/hoopy/1.png" width="30%" height="50%"></img>     
+    </center>
+    <p> Some preliminiary plans</p>
+    <center>
+            <img src = "../media/hoopy/2.png" width="50%" height="50%"></img>   
+            <img src = "../media/hoopy/3.png" width="50%" height="50%"></img>    
+    </center>
+    <hr>
+    <h2>Some actual building</h2>
+    <center>
+            <img src = "../media/hoopy/4.png" width="30%" height="30%"></img>     
+            <img src = "../media/hoopy/5.png" width="30%" height="30%"></img>  
+            <img src = "../media/hoopy/6.png" width="30%" height="30%"></img> 
+    </center>
+    <h2>Some actual CAD-ing</h2>
+    <p> I had to CAD and 3dprint a clip to attatch the plexiglass to the timing belt </p>
+    <center>
+            <img src = "../media/hoopy/7.png" width="30%" height="50%"></img>     
+    </center>
+    <h2>Some actual coding</h2>
+    <a href = "https://github.com/jdeitelzweig/ACKinetics"><p>Not my git, but here's the code. May include python, arduino and openCV</p></a>
+    <p> Basically we are tracking a green ball using a webcam and linearly predicting where the ball would be</p>
+
+    <h2> Testing </h2>
+    <center>
+        <video autoplay = "autoplay" loop = "loop" muted = "muted" width="20%" height="20%">
+            <source src="../media/hoopy/8.mp4" type="video/mp4">
+        </video>
+    </center>
+    <p>We then added a low pass filter to the movement, and a hardware switch to prevent the platform from going pass the range and to calibrate position.</p>
+
+
+    <h2> Final </h2>
+    <center>
+            <video autoplay = "autoplay" loop = "loop" muted = "muted" width="48%" height="48%">
+            <source src="../media/hoopy/9.mp4" type="video/mp4">
+        </video>
+        <video autoplay = "autoplay" loop = "loop" muted = "muted" width="48%" height="48%">
+                <source src="../media/hoopy/10.mp4" type="video/mp4">
+            </video>
+            <video autoplay = "autoplay" loop = "loop" muted = "muted" width="48%" height="48%">
+                    <source src="../media/hoopy/11.mp4" type="video/mp4">
+                </video>
+    </center>
+    <p> Notice that we were bouncing the ball on the floor, since the hoop doesn't react fast enough for the ball to be thrown airbourne.
+        Also note that if we don't bounce it high enough the hoop matches the x axis, but can't go in :(
+    </p>
+
+
+
