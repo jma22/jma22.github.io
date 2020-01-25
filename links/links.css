@@ -4,6 +4,24 @@ p{
     font-size: 120%;
 
 }
+li{
+    /* color: blue; */
+    font-family: verdana;
+    font-size: 120%;
+
+}
 body {margin-left:15%;
     margin-right:15%;
     }
+
+figure{
+    display:inline-block;
+    width:150px;
+    margin:0;
+}
+figcaption {
+    display: table-caption;
+    caption-side: bottom;
+    background: #fff;
+    padding: 0 5px 5px;
+}​
