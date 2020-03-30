@@ -1,0 +1,135 @@
+<html>
+<head>
+  <link rel="stylesheet" href="./links.css">
+</head>
+<body>
+    <h1>
+        Autoencoding </h1>
+    <hr>
+
+    <h2>tldr;</h2>
+    <p> Guy tries to learn autoencoders </p>
+
+    <h2>Task:</h2>
+    <p> Goal here is simple, to encode a 'time series' of 10 numbers. :)</p>
+    <p> First we would try to create totally random data with no pattern whatsoever, let's see how autoencoders work. Also, don't use relu lol. </p>
+    <hr>
+    <h2>1. Single layer perceptron</h2>
+    <center>
+      <img src = "../media/autoencoder/slpnet.png" width="500px" height="300px"></img> 
+      <p>SLP architecture</p>
+    </center>
+    
+      <ul>
+      <li>Activation: None</li>
+      <li>Loss: Mean Squared Error</li>
+      <li>Optimizer: Stochastic Gradient Descent</li>
+      <li>Task: see how the hidden layer size affects loss.</li>
+    </ul>
+
+    
+    <center>
+      <img src = "../media/autoencoder/unitsvsloss.png" width="700x" height="400px"></img> 
+      <p>Loss vs hidden layer size</p>
+    </center>
+    <center>
+      <img src = "../media/autoencoder/trainingvunits.png" width="700x" height="400px"></img>     
+      <p>training curves of different hidden layer size</p>
+    </center>
+    <p> What is really interesting is that the MSE goes down linearly! I guess that is expected since all data is random, the network theoretically should only be able to get an error that is proportional to the data lost during compression.</p>
+    <center>
+      <img src = "../media/autoencoder/10-6.png" width="550px" height="400px"></img> 
+      <img src = "../media/autoencoder/5-1.png" width="550px" height="400px"></img> 
+      <p>Examples</p>
+    </center>
+    <hr>
+    <h2>2. Multilayer perceptron</h2>
+    <center>
+      <img src = "../media/autoencoder/mlpnet.png" width="600px" height="300px"></img> 
+      <p>MLP architecture</p>
+    </center>
+    <p>
+      <ul>
+      <li>Activation: None</li>
+      <li>Loss: Mean Squared Error</li>
+      <li>Optimizer: Stochastic Gradient Descent/ADAM</li>
+      <li>Task: See how intermediate layer size and optimizer affect result, while keeping middle layer of size 5.</li>
+    </ul>
+    </p>
+    
+    <center>
+      <img src = "../media/autoencoder/hiddenvlossmlp(to5).png" width="550px" height="300px"></img> 
+      <img src = "../media/autoencoder/mlpvsunits(bot8).png" width="550px" height="270px"</img>  
+      
+      <p>Loss and training curve v hidden layer size (SGD)</p>
+    </center>
+
+
+    <center>
+      <img src = "../media/autoencoder/1.png" width="550px" height="300px"></img> 
+      <img src = "../media/autoencoder/2.png" width="550px" height="300px"></img> 
+      <p>Loss and training curve v hidden layer size (adam)</p>
+
+    </center>
+    <p>Keep in mind that a SLP with hidden layer 5 was able to achieve 0.04 loss. So if we look at this, it seems that the result is capped at 0.04 when intermediate is 10 during SGD. If we look at optimizers, it seems like SGD was able to achieve the overall best result, but ADAM is more consistent (less variance).</p>
+    <hr>
+    <h2>3. Convolutional</h2>
+    <center>
+      <img src = "../media/autoencoder/convnet.png" width="1200px" height="300px"></img> 
+      <p>Convolutional autoencoder architecture</p>
+    </center>
+    <p>note: today i learnd a n dimensional convolution means the kernel SLIDES in n dimensions, but the kernel itself could be larger than n dimensions.</p>
+    <p>
+      <ul>
+      <li>Activation: None</li>
+      <li>Loss: Mean Squared Error</li>
+      <li>Optimizer: Stochastic Gradient Descent</li>
+      <li>Upsampler: Nearest (copies value n times) so [1,2] becomes [1,1,2,2]</li>
+      <li>Task: See how kernel size affects performance, while keeping compressed layer 5 units.</li>
+    </ul>
+    </p>
+
+    <center>
+      <img src = "../media/autoencoder/3.png" width="700px" height="400px"></img> 
+      <p>Loss of different kernel sizes </p>
+    </center>
+    <p>Not much big fluctuations from the slp baseline of 0.04. Nothing to see here~</p>
+    <hr>
+
+    
+    <h2>4. LSTM</h2>
+    <hr>
+    <h2>Patterned data</h2>
+    <p> Following data is 10 numbers with the same delta, but different values. They are the same copy of 10 random values between 0 and 1, but then adding a random constant to each data point. Imagine these as 'trajectories' of a point that moves in the same pattern, but starting at some random place on 1 dimension.</p>
+    <center>
+      <img src = "../media/autoencoder/patterndata.png" width="700px" height="400px"></img> 
+      <p> What 3 data points would be like. </p>
+    </center>
+    <hr>
+    <h2>1. Single layer perceptron</h2>
+    <center>
+      <img src = "../media/autoencoder/patternslp.png" width="700px" height="500px"</img> 
+      <p> What 3 data points would be like </p>
+    </center>
+    <hr>
+    <h2>2. Multilayer perceptron</h2>
+    <center>
+      <img src = "../media/autoencoder/patternmlp.png" width="700px" height="500px"</img> 
+      <p> What 3 data points would be like </p>
+    </center>
+    <hr>
+    <h2>3. Convolutional</h2>
+    <center>
+      <img src = "../media/autoencoder/patternconv.png" width="700px" height="500px"</img> 
+      <p> What 3 data points would be like </p>
+    </center>
+    <hr>
+    <h2>Some other 'autoencoders'</h2>
+    <h2>Sparse autoencoder</h2>
+    <p>Penalize with L1 activations Penalize, or KL divergence</p>
+    <h2>Denoising autoencoder</h2>
+    <p>Train on noise to return original image</p>
+    <h2>Contractive autoencoder</h2>
+    <p>Penalize derivative of activation - so similar inputs have similar encoded states/p>
+
+

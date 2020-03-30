@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../links.css">
+</head>
+
+<body>
+<h1>Checkpoint 2: Genetic algorithm</h1>
+<h2> Intro</h2>
+<p>A genetic algorithm is an algorithm that mimics evolution to do intelligent 'guesses' to a solution, here I would try to apply such an algorithmon a neural network, specifically to the weights of a neural network.</p>
+<h2>Genetic algorithms:
+</h2>
+<p> Here's the general flow of the algorithm: </p>
+<ol>
+  <li> Initialize N random sets of weights/neural nets, these would be the initial population</li>
+  <li> Evaluate all of them and give them each a 'fitness' score based on task, do multiple runs per net and average to increase reliability</li>
+  <li> Take top X networks as parents, take best performing net as 'elite'</li>
+  <li> Crossover the parents, there are many ways to do this, the general idea is to mix the weights of two networks</li>
+  <li> Mutate the weights, add some gaussain noise with some set probability</li>
+  <li> Add elite unaltered to children. Repeat the process on children. </li>
+</ol>
+
+<p>Since set it seemed like setting and retrieving weights and converting between pytorch arrays could be a pain, I decided to make my own networks. Since there is no back prop involved, this was relatively easy. I just needed to recreate softmax, relu and dense layers. </p>
+
+<p>Score calc: roundssurvived + 1500*win</p>
+<p>network: 58-128-128-6 w/relu and softmax</p>
+<p>Input: x,y,aimx,aimy for each tank; x,y,directionx,directiony, active (1/0) for each bullet (max 10)</p>
+
+<p>PS i later learnt that the network could be simplified by a lot, also scoring with rounds survived is not optimal, since the tanks would actually learn to not shoot.</p>
+<hr>
+
+<h2>Try1</h2>
+<h3> Params:</h3>
+<ul>
+    <li>population_size = 200</li>
+    <li>parent_size = 25</li>
+    <li>generations = 100</li>
+    <li>n=3(games per agent during testing)</li>
+    <li>mut_prob = 0.1</li>
+    <li>mut_rate = 0.1</li>
+    <li>maxround = 500</li>
+  </ul>
+    
+ 
+    <h3>Technicalities</h3>
+    <ul>
+        <li>Mating: choose parents uniformly amongst group of parents</li>
+        <li>Crossover: halfpoint of flatten weight matrix</li>
+        <li>Net: 58-128-6</li>
+        
+      </ul>
+<h3> Games</h3>
+<center>
+  <video autoplay = "autoplay" loop = "loop" muted = "muted" width="50%" height="50%">
+      <source src="../../media/tanks/try1gen90 (2).mp4" type="video/mp4">
+  </video>
+  <p>gen90</p>
+</center>
+
+
+
+
+<p>As I can see they just learn how to move away from each other. I realized that flattening and cutting the weights in half arbitrally doesn't really make that much sense.</p>
+<hr>
+<h2>Try2</h2>
+<p> Several changes here, I first make mating such that parents are chose with probability proportional to score, and crossover the weights instead of the whole array. I also simplified the network.
+</p>
+<h3> Params:</h3>
+<ul>
+    <li>population_size = 100</li>
+    <li>parent_size = 25</li>
+    <li>generations = 100</li>
+    <li>n=2</li>
+    <li>mut_prob = 0.1</li>
+    <li>mut_rate = 1</li>
+    <li>maxround = 250</li>
+  </ul>
+    
+<h3>Technicalities</h3>
+<ul>
+    <li>Mating: parents chosen with probability proportional to score</li>
+    <li>Crossover: each weight has 50% chance to be from each parent</li>
+    <li>Net: 58-128-6</li>
+    <li>Slower bullet speed</li>
+    </ul>
+    <h3> Games</h3>
+<center>
+  <video autoplay = "autoplay" loop = "loop" muted = "muted" width="50%" height="50%">
+      <source src="../../media/tanks/try2gen210 (2).mp4" type="video/mp4">
+  </video>
+  <p>gen210</p>
+</center>
+<p>It just shoots everywhere now, at least it shoots?</p>
+
+<hr>
+<h2>Try3</h2>
+<p>Put more layers to net.</p>
+<h3>Technicalities</h3>
+<ul>
+    <li>Net: 58-128-128-6</li>
+</ul>
+<h3> Games</h3>
+<center>
+  <video autoplay = "autoplay" loop = "loop" muted = "muted" width="50%" height="50%">
+      <source src="../../media/tanks/try3gen50 (2).mp4" type="video/mp4">
+  </video>
+  <p>gen50</p>
+</center>
+<p>Still randomly shoots?</p>
+<hr>
+<h2>Try4</h2>
+<p> A paper said that wieghts should work synchronously, so I swap weights by column, keeping the connections that feed into the next neuron the same. </p>
+<h3> Params:</h3>
+<ul>
+    <li>population_size = 150</li>
+    <li>parent_size = 30</li>
+    <li>generations = 300</li>
+    <li>n=3</li>
+    <li>mut_prob = 0.15</li>
+    <li>mut_rate = 1</li>
+    <li>maxround = 300</li>
+  </ul>
+    
+<h3>Technicalities</h3>
+<ul>
+    <li>Crossover: weights swapped out by column (50% each parent)</li>
+    </ul>
+<hr>
+<h3> Games</h3>
+<center>
+  <video autoplay = "autoplay" loop = "loop" muted = "muted" width="50%" height="50%">
+      <source src="../../media/tanks/try4gen295 (2).mp4" type="video/mp4">
+  </video>
+  <p>gen50</p>
+</center>
+<p>Wait is it aiming??</p>
+
+<h2>Try5</h2>
+<p>Normalized coordinates (oops)</p>
+<h3> Params:</h3>
+<ul>
+    <li>population_size = 150</li>
+    <li>parent_size = 25</li>
+    <li>generations = 150</li>
+    <li>n=2</li>
+    <li>mut_prob = 0.1</li>
+    <li>mut_rate = 1</li>
+    <li>maxround = 200</li>
+  </ul>
+    
+<h3>Technicalities</h3>
+<ul>
+    <li>Coordinates normalized to 0-1</li>
+</ul>
+<hr>
+<h3> Games</h3>
+<center>
+  <video autoplay = "autoplay" loop = "loop" muted = "muted" width="50%" height="50%">
+      <source src="../../media/tanks/try5gen200 (2).mp4" type="video/mp4">
+  </video>
+  <p>gen200</p>
+</center>
+<p>Nah let's move on.</p>>
+
+</body>

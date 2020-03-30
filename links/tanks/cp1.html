@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../links.css">
+</head>
+
+<body>
+<h1>Checkpoint 1: Game Creation</h1>
+<p>First step to this project is making some engine to can play the game.</p>
+<center>
+    <video autoplay = "autoplay" loop = "loop" muted = "muted" width="50%" height="50%">
+        <source src="../../media/tanks/demo.mp4" type="video/mp4">
+    </video>
+</center>
+<p> There are several special elements in this game that make it slightly different from the typical game.</p>
+<ul>
+    <li>The controls are tank controls, meaning you can only move in the direction you are facing.</li>
+    <li>You are also only able to shoot in the direction you are facing</li>
+</ul>
+<p> I decided to make the most basic model with no bouncing and just controls that mimic the game. There are few actions that a tank could take at any given time step:</p>
+<ol start = "0">
+    <li>Stay</li>
+    <li>Move forward</li>
+    <li>Move backwards</li>
+    <li>Rotate right</li>
+    <li>Rotate left</li>
+    <li>Shoot</li>
+</ol>
+
+<p>I didn't want to learn a whole new game engine (cough pygame), nor did I want to use Unitysince it would be a pain to link unity up to python. So I decided to use something very basic - tkinter - to render the game.</p>
+<hr>
+<h2>Implementation</h2>
+<p>Here, I'm going towrite down the struture of my code for future use so feel free to not read this.</p>
+<center>
+    <video autoplay = "autoplay" loop = "loop" muted = "muted" width="50%" height="50%">
+        <source src="../../media/tanks/mine.mp4" type="video/mp4">
+    </video>
+</center>
+
+<h3>Game Engine</h3>
+    <p>It has one main attribute which is the state dictionary, which contains all information at of the game so that we could recreate the game given this dictionary, Dictionary had:</p>
+<ul>
+    <li>tanks: list of tank objects</li>
+    <li>bullets: list of bullet objects</li>
+    <li>Game: state of game (ongoing, team1 win etc)</li>
+    <li>TankCount: How many tanks in each team left</li>
+</ul>
+<p>Some useful functions:</p>
+<ul>
+    <li>get_state_dict(): returns state dictionary</li>
+    <li>get_net_input(): gets some numeric representation of state dict to input into network</li>
+    <li>start(): reset game</li>
+    <li>step(actions): given actions, advance game one frame</li>
+    <li>playgame(): should allow rendering/manual input, and saving history (list of all statedicts in a game)</li>
+</ul>
+<p>Step function:</p>
+<ol>
+    <li>Call tank step function with action</li>
+    <li>Call bullet step functions</li>
+    <li>Collision detections</li>
+    <li>Despawn bullet and tanks</li>
+    <li>Game state update</li>
+</ol>
+
+<h3>Tank/Bullets</h3>
+    <p>These game itesm each have internal state variables, such as x,y, angle, bullets, velocity, size etc. A good way to implement these is for each of these to have a step action that steps the state of each object to the next time step given an action. The step function should also include functions such as boundary detection, but not collision detection.</p>
+</body>
+
+<hr>
+<h2>ML setup</h2>
+<p>A setup for not dying when ML hits</p>
+<ul>
+    <li>game.py: all game related functions</li>
+    <li>render.py: renderer made with tkinter</li>
+    <li> replay.py: replays a pickled list of state dicts using renderer</li>
+    <li> classes.py: dataset and neural net classes</li>
+    <li> train.py: standard function that trains networks</li>
+    <li>helpers.py: all helper functions</li>
+    <li>versus.py: given two models, plays them against each other and create a replay **very useful lol</li>
+    <li>/replay: directories for results</li>
+    <li>/models: directories for models</li>
+</ul>
+<p> This setup was rather useful since I can't render tkinter on the remote cluster, I had to download the replay pickle and play it locally.</p>
+</ul>

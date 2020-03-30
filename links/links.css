@@ -10,6 +10,16 @@ li{
     font-size: 120%;
 
 }
+
+h3 {
+    font-size: 25px;
+    font-weight: bold;
+}
+h2 { 
+    font-size: 28px;
+    font-weight:  bold;
+    text-decoration: underline;
+}
 body {margin-left:15%;
     margin-right:15%;
     }
@@ -24,4 +34,4 @@ figcaption {
     caption-side: bottom;
     background: #fff;
     padding: 0 5px 5px;
-}​
+}

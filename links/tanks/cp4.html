@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../links.css">
+</head>
+
+<body>
+  <h1>Checkpoint 4: Actor Critic</h1>
+  <h2> Intro</h2>
+  <p>A main problem of q learning is that the q function is usually very complex to be learnt, so one option is to split the task into two. The actor, a network that outputs probability for each action given a state, also known as a policy network. The critic, a q-network or value network (network that evaluates states instead of state-action pairs), to judge whether that action was good or not.</p>
+  <hr>
+  
+  <h2>Actor Critic
+  </h2>
+  <p> Few notes: </p>
+  <ul>
+    <li>Policy learning, could bedone in many ways, REINFORCE is a way where the q functino is learnt through monte carlo isntead of a network</li>
+    <li>Policy training relies on the concept of the policy gradient, which is the fact that we can multiply the log probability given an acion and the 'value' of the state it gets us to compute a 'loss' for gradient ascent. (Since we are maximizing reward). For example, if the probability of getting to a high value (Q) state is low (0.1), the loss would be log(0.1)*Q, which would be extremely high. On the other hand if probability is high (1), the loss would be 0.</li>
+    <li>The metric used here would the 'advantage', this allows the training to be less varied.. Which is the 'advantage' we gain from taking some action at some state. This is computed by either the difference between the discounted Value of s' - value of current s, or if using Q, discounted action_max Q(s') -  Q(s,a). Action_max meaning max over actions.</li>
+    <li>This is considered off policy, since the policy the algorithm follows is DIFFERENT from the argmax of state/q values it generates.
+    </li>
+
+  </ul>
+<p>We would still be using experience replay and taret update, so the algorithm is very similar to q learning, but instead we would update both networks.</p>
+  <p>the general flow of the algorithm:  </p>
+<ol>
+  <li>Start a new game, initialize a actor[policy] and critic[value] network network and make a copy of it.</li>
+  <li>Make action by sampling from probabilities given by policy network.</li>
+  <li>Calculate reward and get new game state, store this 'step' of [s,a,r,s] into 'memory'</li>
+  <li>Sampling a random number of 'steps' from memory, compute loss using the FROZEN q and p network and averaging.</li>
+  <li>update active q and p network, return to step 2, and update target networks if necessary.</li>
+</ol>
+<p>I also decided to cap the number of bullets to 1 to decrease the input space.</p>
+<hr>
+<h2> Classic actor critic (value [score of a state])
+</h2>
+<h3> Technicalities</h3>
+<p>valueNetwork: 14-32-32-1</p>
+<p>pNetwork: 14-32-32-1</p>
+<p>pLoss: given a step of [sars'], loss = log(frozenp(s)[a])*(r+discount*frozenV(s')-frozenV(s)) </p>
+<p>vLoss: given a step of [sars'], MSE between vnet(s) and reward+discount*frozenv(s') </p>
+
+<p>Input:<p>
+  <ul>
+    <li>X, Y of current direction facing.[2]</li>
+    <li>Angle between my direction and enemy[1]</li>
+    <li>Distance between my direction and enemy[1]</li>
+    <li>Angle[1] and distance[1] between bullet, bullet direction[2],active[1] for each bullet(x2)</li>
+  </ul>
+<p>Rewards: (10-TURNS/100) IF WIN, -(10-TURNS/100) IF LOSS, TURNS/MAXTURNS IF ONGOING</p>
+<p>Params:</p>
+<ul>
+  <li>memorysize = 300 #in turns</li>
+  <li>numGames = 10000</li>
+  <li>maxturn = 150</li>
+  <li># epsilon = 0.3 #chance to random (decays by 0.9 every targetupdate)</li>
+  <li>exp_num = 32</li>
+  <li>discount = 0.97 #future reward discount</li>
+  <li>target_update = 64 #in turns</li>
+  <li>saveint =500 #games</li>
+</ul>
+<h3> Games</h3>
+<center>
+  <video autoplay = "autoplay" loop = "loop" muted = "muted" width="50%" height="50%">
+      <source src="../../media/tanks/vpol10000v900 (2).mp4" type="video/mp4">
+  </video>
+  <p>game10000vsgame900</p>
+</center>
+<p>Ummm still quite bad, I don't think they really aimed or know what they were doing.</p>
+
+
+  <hr>
+  <h2> Q actor critic (score of a state-action pair)
+  </h2>
+  <p>I was going to do a sanity check like for q learning, but I realized it is way harder for values to learn that since value networks don't contain information about action taken,so I decided to use a q network as my 'critic', since I know that it works. Only some minor changes, the algorithm is the same.</p>
+ 
+<h3> Technicalities</h3>
+<p>qNetwork: 20-64-64-1</p>
+<p>qLoss: Same as CP3 </p>
+<p>pLoss: given a step of [sars'], loss = log(frozenp(s)[a])*(r+ discount*action_maxQ(s')-Q(s,a)) </p>
+<h3> Games</h3>
+<center>
+  <video autoplay = "autoplay" loop = "loop" muted = "muted" width="50%" height="50%">
+      <source src="../../media/tanks/pol3800v3700 (2).mp4" type="video/mp4">
+  </video>
+  <p>game3800vsgame3700</p>
+</center>
+<p>Ok it seems like it has an idea of aiming</p>
+<center>
+  <video autoplay = "autoplay" loop = "loop" muted = "muted" width="50%" height="50%">
+      <source src="../../media/tanks/pol1100v3800 (2).mp4" type="video/mp4">
+  </video>
+  <p>game1100vsgame3800</p>
+</center>
+<p>Woah that was pretty nice</p>
+<hr>

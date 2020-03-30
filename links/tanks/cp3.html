@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../links.css">
+</head>
+
+<body>
+<h1>Checkpoint 3: Deep Q learning</h1>
+<h2> Intro</h2>
+<p>Quick rundown on RL, it is based on teh fact that most games/tasks form a markov chain and giving some score toeach state/action. The most obvious way to train some function to evaluate states is running through every possibility. If that's not possible we can use monte carlo, doing complete runs and updating states accordingly. Temporal difference algorithms bootstrap these complete runs and only computes the next step, assuming that next state had the correct value. The on policy TD learning would be SARSA, where we follow the optimal policy and learn with TD. Q learning is the off policy version of this</p>
+
+<p> So q learning is a process that approximates a score for each state-action pair. You dump in a gamestate and an action, it tells you a score. So for each state compute state action for each possible action and argmax!</p>
+<hr>
+
+<h2>Deep q learning
+</h2>
+<p> Few notes: </p>
+<ul>
+  <li>Regular DQL is kinda bad, due to high variance so we're going to implement two extra features, experience replay and target update.</li>
+  <li>the training session I'm using are known as 'online',as opposed to 'batched', since the dat is obtained as we update the network.</li>
+  <li>Q learning is 'off policy', since it only uses the best score to calculate q values, but the action it chooses (policy) is usually epsilon-greedy. It doesn't follow it's own policy.</li>
+  </li>
+
+</ul>
+
+<p>the general flow of the algorithm:  </p>
+<ol>
+  <li>Start a new game, initialize a q network and make a copy of it.</li>
+  <li>Make action using epsilon greedy and q network.</li>
+  <li>Calculate reward and get new game state, store this 'step' of [s,a,r,s] into 'memory'</li>
+  <li>Sampling a random number of 'steps' from memory, compute loss using the FROZEN q network and averaging.</li>
+  <li>update active q network, return to step 2, and update FROZEN q net to active Q net if necessary.</li>
+</ol>
+
+<p>Storing memories and retrieving then averaging allows the result to have less fluctuation. Having a target network to update also reduces amount of 'noisy' change between each iteration.</p>
+<hr>
+<h2> Absolute input 
+
+</h2>
+<h3> Technicalities</h3>
+<p>Network: 64-128-128-1</p>
+<p>Loss: given a step of [sars'], </p>
+<p>  &nbsp; label = r+discount*(best q score in s' using frozenqnent)</p>
+<p>  &nbsp; y = activeqnet(s,a)</p>
+<p> &nbsp; Loss: (y-label)^2</p>
+<p>Input: x,y,aimx,aimy for each tank;[4*2] x,y,directionx,directiony, active (1/0) for each bullet (max 10)[5*10]; action one hot[6]</p>
+<p>Rewards: (10-TURNS/100) IF WIN, -(10-TURNS/100) IF LOSS, TURNS/MAXTURNS IF ONGOING</p>
+<p>Params:</p>
+<ul>
+  <li>memorysize = 3000 #in turns</li>
+  <li>numGames = 3000</li>
+  <li> maxturn = 100</li>
+  <li>epsilon = 0.3 #chance to random (decays by 0.9 every targetupdate)</li>
+  <li> exp_num = 25</li>
+  <li> discount = 0.95 #future reward discount</li>
+  <li>target_update = 2 #in numgames</li>
+</ul>
+<h3> Games</h3>
+<center>
+  <video autoplay = "autoplay" loop = "loop" muted = "muted" width="50%" height="50%">
+      <source src="../../media/tanks/qlabs (2).mp4" type="video/mp4">
+  </video>
+  <p>game???</p>
+</center>
+<p>Ummm that was bad</p>
+<hr>
+<h2>Intermission</h2>
+<p>So due to how bad this was, I had to do a sanity check on the algorithm. I made the reward '1 if action==4, else 0'. And see if the algorithm is able to learn that, and it was!</p> 
+<hr>
+<h2>Relative input</h2>
+<p>I decided to change the input and give the tank a little push, I changed it such that the input is:</p>
+<ul>
+  <li>X, Y of current direction facing.[2]</li>
+  <li>Angle between my direction and enemy[1]</li>
+  <li>Distance between my direction and enemy[1]</li>
+  <li>Angle[1] and distance[1] between bullet, bullet direction[2],active[1] for each bullet(x10)</li>
+</ul>
+<p>Network: 60-128-128-1</p>
+<h3> Games</h3>
+<center>
+  <video autoplay = "autoplay" loop = "loop" muted = "muted" width="50%" height="50%">
+      <source src="../../media/tanks/ql1700v1600 (2).mp4" type="video/mp4">
+  </video>
+  <p>game 1700 vs game 1600</p>
+</center>
+<p>It aims but doesnt shoot??? At least it knows the importance of aiming</p>
+<center>
+  <video autoplay = "autoplay" loop = "loop" muted = "muted" width="50%" height="50%">
+      <source src="../../media/tanks/ql1500v1400 (2).mp4" type="video/mp4">
+  </video>
+  <p>game 1500 vs game 1400</p>
+</center>
+<p>I can't tell if green committed suicide, or red was good.</p>
+
+<hr>
+<p>Anyways, that's it for ql. I'm out.</p>
+</body>
