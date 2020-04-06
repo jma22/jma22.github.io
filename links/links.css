@@ -35,3 +35,12 @@ figcaption {
     background: #fff;
     padding: 0 5px 5px;
 }
+pre code {
+    background-color: #eee;
+    border: 1px solid #999;
+    display: block;
+    padding: 0px;
+    font-family:monospace,monospace;
+    font: 20px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+
+  }

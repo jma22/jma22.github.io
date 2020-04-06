@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../links.css">
+</head>
+
+<body>
+<h1>Checkpoint 1: Graph Networks</h1>
+<h2>Graphs</h2>
+<h3>Some vaariables</h3>
+<p> Given a graph G = (V,E)</p>
+<ul>
+    <li><i>V</i>: vertices</li>
+    <li><i>E</i>: edges</li>
+    <li><i>N</i>: number of nodes (vertices)</li>
+    <li><i>F</i>: number of features per node</li>
+</ul>
+<p>Example graph:</p>
+<center>
+<img src = "../../media/motion/graph.png" width="200px" height="200px"></img> 
+</center>
+
+<p>The nodes are named 1,2,3,4 respectively. Let's set the feature of each node to be the negative and positive of the node name, meaning <i>F</i> = 2 and <i>I</i>= 4. The feature matrix would be of size NxF.</p>
+<pre>
+<code>
+    X = [[-1 1],
+         [-2 2],
+         [-3 3],
+         [-4 4]]
+</code>
+</pre>
+<p> The adjacency matrix A is a NxN matrix where a 1 in [i][j] means node i has an edge to node j, (i and j being 0 indexed)so for the above graph, assuming all bidrectional edges, the adjacency matrix A would look like:</p>
+<pre>
+    <code>
+        A = [[0 1 1 0],
+             [1 0 1 1],
+             [1 1 0 1],
+             [0 1 1 0]]
+    </code>
+</pre>
+
+<h3>Graph convolutional networks</h3>
+<p> We can do a simple matrix multiplication A*X.</p>
+<pre>
+    <code>
+        AX = [0 1 1 0]    [-1 1]   [(-2 + -3), (2 + 3) ]
+             [1 0 1 1]  x [-2 2] = [(-1 + -3 + -4), (1 + 3 + 4)]
+             [1 1 0 1]    [-3 3]   [(-1 + -2 + -4), (1 + 2 + 4)]
+             [0 1 1 0]    [-4 4]   [(-2 + -3), (2 + 3) ]
+    </code>
+</pre>
+<p>We call this proccess aggregating.</p>
+<p>After getting the new feature matrix AX, we can multiply this NxF sized matrix with a weight matrix W that is FxF2. So we can create F2 features from F features of each node. We can even use a reLu after this! So in the end we get:<br></p>
+<center>  <p>Y = reLu(AXW)</p></center>
+
+<p>As you can see each node now has it's neighbour's data, but there are two problems, first it seems like the representation from aggregating neighbours does not have information from the node itself. Secondly, the more edges a node has, it seems like the larger the resulting aggregation would be.</p>
+
+<p></p>
+
+<p>Aggregating neighbours</p>
+<p></p>
+<p>Agregations</p>
+<p>Sum</p>
+<p>Average</p>
+<p>Spectral</p>
+<p>graph sage</p>
+<p>Message passing networks</p>
+</body>

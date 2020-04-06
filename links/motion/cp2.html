@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../links.css">
+</head>
+
+<body>
+<h1>Checkpoint 2: Cube encoding</h1>
+
+
+<h2>Graph</h2>
+<p>The test object is simple, it is a cube </p>
+<hr>
+<h2>Simple graph conv</h2>
+<p>Specs: 3-8-3, relu</p>
+<center>
+<img src = "../../media/motion/gcn2.png" width="500px" height="300px"></img> 
+<p>Correct cube</p>
+</center>
+<center>
+<img src = "../../media/motion/gcn2me.png" width="500px" height="300px"></img> 
+<p>net 'cube'</p>
+</center>
+
+<hr>
+<h2>Overcomplete GCN</h2>
+<p>Specs: 3-32-32-32-3, relu</p>
+<center>
+<img src = "../../media/motion/correct02.png" width="400px" height="300px"></img> 
+<img src = "../../media/motion/GCN32-02.png" width="400px" height="300px"></img>
+<p>View1</p>
+</center>
+<hr>
+<center>
+<img src = "../../media/motion/correct13.png" width="400px" height="300px"></img> 
+<img src = "../../media/motion/GCN32-13.png" width="400px" height="300px"></img>
+<p>View2</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/GCN32.png" width="600px" height="400px"></img> 
+    <p>Loss (rightmost line)</p>
+</center>
+<hr>
+<h2>Dropouts</h2>
+<p>Specs: 3-32-32-32-3, relu</p>
+<p>Indrop: drop input with 0.6</p>
+<p>Middrop: drop hidden layer with 0.5</p>
+<center>
+    <img src = "../../media/motion/midandin.png" width="600px" height="400px"></img> 
+    <p>Loss (rightmost line)</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/inputdrop.png" width="1000px" height="400px"></img> 
+    <p>Indrop [similar to no drop]</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/middrop.png" width="1000px" height="400px"></img> 
+    <p>Middrop [btw middrop loss increases?]</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/middropc.png" width="400px" height="400px"></img> 
+    <p>Graph of middrop</p>
+</center>
+<hr>
+<h2>L1 and leaky</h2>
+<p>Specs: 3-32-32-32-3</p>
+<p>L1: loss is mae +mse,relu</p>
+<p>leaky: leakyrelu activation, mse loss</p>
+<p>L1leak: leak,mse+mae</p>
+
+<center>
+    <img src = "../../media/motion/leakloss.png" width="700px" height="400px"></img> 
+    <p>Loss</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/l1.png" width="1000px" height="400px"></img> 
+    <p>L1</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/leak.png" width="1000px" height="400px"></img> 
+    <p>Leaky</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/leakyL1.png" width="1000px" height="400px"></img> 
+    <p>LeakyL1</p>
+</center>
+<p>I realized the net is just memorizing one cube,since my input data was skewed due to how i initialize camera...</p>
+<hr>
+<h2>L1leak and dropout but with better data!</h2>
+<p> Added more diverse angles to dataset</p>
+<p>Specs: 3-32-32-32-3</p>
+
+<center>
+    <img src = "../../media/motion/try3loss.png" width="700px" height="400px"></img> 
+    <p>Loss</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/try3loss2.png" width="700px" height="400px"></img> 
+    <p>Closer look at loss</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/GCN32new.png" width="1000px" height="400px"></img> 
+    <p>GCN32</p>
+    <p>L1Loss:0.03315</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/leakL1new.png" width="1000px" height="400px"></img> 
+    <p>Leak L1</p>
+    <p>L1Loss:0.03002</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/leakL1midnew.png" width="1000px" height="400px"></img> 
+    <p>L1leakmid: hidden layer dropout with 0.5 </p>
+    <p>L1Loss:0.07126</p>
+</center>
+<hr>
+
+<center>
+    <img src = "../../media/motion/leakL1innew.png" width="1000px" height="400px"></img> 
+    <p>L1leakin: input layer dropout with 0.5  </p>
+    <p>L1Loss:0.03505</p>
+</center>
+
+<p>It seems like the GCNs are failing to get properties of sharp edges...</p>
+
+<hr>
+<h2>Other graph convs!</h2>
+<h3>EdgeConv</h3>
+<h3>SAGEConv</h3>
+<p>Mean, lstm,gcn</p>
+<h3>Graph attention networks</h3>
+
+<hr>
+<h2>Combinations with dense?</h2>
