@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../../links.css">
+</head>
+
+<body>
+<h1>Checkpoint 1: GCNs</h1>
+
+
+<h2>Simple graph conv</h2>
+<p><a href = "../../motion/cp1.html">Explaination  </a> </p> 
+</p>
+<p>Specs:</p>
+<ul>
+  <li>Layers: 3-8-3 </li>
+  <li>Activation: relu </li>
+</ul>
+<center>
+<img src = "../../../media/motion/phase1/cp1/gcn2.png" width="400px" height="300px"></img> 
+<p>Correct cube</p>
+</center>
+<center>
+<img src = "../../../media/motion/phase1/cp1/gcn2me.png" width="400px" height="300px"></img> 
+<p>net 'cube'</p>
+</center>
+
+<hr>
+<h2>Overcomplete GCN</h2>
+<p>Specs:</p>
+<ul>
+  <b><li>Layers: 3-32-32-32-3 </li></b>
+  <li>Activation: relu </li>
+</ul>
+<center>
+<img src = "../../../media/motion/phase1/cp1/correct02.png" width="400px" height="300px"></img> 
+<img src = "../../../media/motion/phase1/cp1/GCN32-02.png" width="400px" height="300px"></img>
+<p>View1</p>
+</center>
+<hr>
+<center>
+<img src = "../../../media/motion/phase1/cp1/correct13.png" width="400px" height="300px"></img> 
+<img src = "../../../media/motion/phase1/cp1/GCN32-13.png" width="400px" height="300px"></img>
+<p>View2</p>
+</center>
+<hr>
+<center>
+    <img src = "../../../media/motion/phase1/cp1/GCN32.png" width="400px" height="300px"></img> 
+    <p>Loss (rightmost line)</p>
+</center>
+<hr>
+<h2>Dropouts</h2>
+<p>Specs:</p>
+<ul>
+  <li>Layers: 3-32-32-32-3 </li>
+  <li>Activation: relu </li>
+  <li>Loss: MSE </li>
+  <b><li>Indrop: drop input layer with 0.6</li></b>
+  <b><li>Middrop: drop hidden layer with 0.5</li></b>
+</ul>
+
+<center>
+    <img src = "../../../media/motion/phase1/cp1/midandin.png" width="700px" height="400px"></img> 
+    <p>Loss </p>
+</center>
+<hr>
+<center>
+    <img src = "../../../media/motion/phase1/cp1/inputdrop.png" width="1000px" height="400px"></img> 
+    <p>Indrop [similar to no drop]</p>
+</center>
+<hr>
+<center>
+    <img src = "../../../media/motion/phase1/cp1/middrop.png" width="1000px" height="400px"></img> 
+    <p>Middrop [btw middrop loss increases?]</p>
+</center>
+<hr>
+<center>
+    <img src = "../../../media/motion/phase1/cp1/middropc.png" width="400px" height="400px"></img> 
+    <p>Graph of middrop</p>
+</center>
+<hr>
+
+<h2>L1 and leaky</h2>
+<p>Specs:</p>
+<ul>
+  <li>Layers: 3-32-32-32-3 </li>
+  <li>Activation: relu </li>
+  <li>Loss: MSE </li>
+  <b><li>L1: MSE + MAE loss</li></b>
+  <b><li>Leaky: leakyrelu activation</li></b>
+  <b><li>L1leak: both of the above</li></b>
+</ul>
+
+<center>
+    <img src = "../../../media/motion/phase1/cp1/leakloss.png" width="700px" height="400px"></img> 
+    <p>Loss</p>
+</center>
+<hr>
+<center>
+    <img src = "../../../media/motion/phase1/cp1/l1.png" width="1000px" height="400px"></img> 
+    <p>L1</p>
+</center>
+<hr>
+<center>
+    <img src = "../../../media/motion/phase1/cp1/leak.png" width="1000px" height="400px"></img> 
+    <p>Leaky</p>
+</center>
+<hr>
+<center>
+    <img src = "../../../media/motion/phase1/cp1/leakyL1.png" width="1000px" height="400px"></img> 
+    <p>LeakyL1</p>
+</center>
+<p>I realized the net is just memorizing one cube,since my input data was skewed due to how i initialize camera...</p>
+<hr>
+
+<h2>Dropout with new data</h2>
+<p>Specs:</p>
+<ul>
+  <li>Layers: 3-32-32-32-3 </li>
+  <li>Activation: Leaky relu </li>
+  <li>Loss: MSE + MAE</li>
+  <b><li>Dropout: hidden/input 0.5</li></b>
+</ul>
+
+<center>
+    <img src = "../../../media/motion/phase1/cp1/try3loss.png" width="700px" height="400px"></img> 
+    <p>Loss</p>
+</center>
+<hr>
+<center>
+    <img src = "../../../media/motion/phase1/cp1/try3loss2.png" width="700px" height="400px"></img> 
+    <p>Closer look at loss</p>
+</center>
+<hr>
+<center>
+    <img src = "../../../media/motion/phase1/cp1/GCN32new.png" width="1000px" height="400px"></img> 
+    <p>GCN32</p>
+    <p>L1Loss:0.03315</p>
+</center>
+<hr>
+<center>
+    <img src = "../../../media/motion/phase1/cp1/leakL1new.png" width="1000px" height="400px"></img> 
+    <p>Leak L1</p>
+    <p>L1Loss:0.03002</p>
+</center>
+<hr>
+<center>
+    <img src = "../../../media/motion/phase1/cp1/leakL1midnew.png" width="1000px" height="400px"></img> 
+    <p>L1leakmid: hidden layer dropout with 0.5 </p>
+    <p>L1Loss:0.07126</p>
+</center>
+<hr>
+
+<center>
+    <img src = "../../../media/motion/phase1/cp1/leakL1innew.png" width="1000px" height="400px"></img> 
+    <p>L1leakin: input layer dropout with 0.5  </p>
+    <p>L1Loss:0.03505</p>
+</center>
+
+<p>It seems like the GCNs are failing to get properties of sharp edges...</p>
+<hr>

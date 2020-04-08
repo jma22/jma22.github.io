@@ -14,9 +14,31 @@
 
     <h2>Problem: </h2>
     <p>Structure from motion but using graphs?</p>
+
+    
     
     <hr>
-    <p><a href = "./motion/cp1.html">Checkpoint 1: Graph Networks</a></p> 
-    <p><a href = "./motion/cp2.html">Checkpoint 2: Cube Encoding</a></p> 
-    <p><a href = "./motion/cp3.html">Checkpoint 3: Motion Encoding</a></p> 
+    <p><a href = "./motion/cp1.html">Phase 0: Graph Networks</a></p> 
+    <p><a href = "./motion/cp2.html">Phase 1: Cube Encoding</a></p> 
+    <p><a href = "./motion/cp3.html">Phase 2: Motion Encoding</a></p> 
+
+    <hr>
+    <h2>Official blurb: </h2>
+    <p>Humans are able to perceive and complete 3D objects from 2D representations, this sense is also known as object permanence - we know that points do not just disappear.
+        Theoretically, if given the depth map of some object, and given that it is in motion such that all points have been observed at least once. Even if it is a 2D representation, it should be possible to reconstruct the full complete 3D object.
+    </p>
+    <h3>Goal: </h3>
+    <p>Using surface dynamics permanence to solve the non-rigid structure from motion problem. The input would be a depth/stereo stream and the output is the 3D shape at any given time.
+    <h3>Motivation: </h3>
+        <p>
+        Humans can easily reason about an object’s shape under non-rigid motions. This seemingly easy task is computationally hard. We would like to tackle this problem by assuming that the key component for solving this relies on:
+        Local surface permanence: Local surface patches never disappear.
+        Motion for occluded surfaces is inferred from the observable ones, i.e. a dynamics model for the motion/deformation of depth surfaces.</p>
+        
+    <h3>Contribution compared to previous works:</h3><p>
+    Previous methods for tackling this problem mainly relies on volume deformation. It assumes that each frame can be deformed into a canonical volume, and all depth maps can be registered into this space. 
+    Problems with this method is that: heavy regularization is imposed on the deformation field to make the registration plausible. Also, deforming the volume can not express topological changes. 
+    </p><p>
+    In our formulation, the basic elements would be local surface patches. We assume that those patches are permanent, and aim to reason about the object’s shape by learning a dynamics model among the elements. Therefore it would be expressive enough for topological changes and removing heavy regularizations on the deformation field by learning the dynamics directly.
+    </p>
 </body>
