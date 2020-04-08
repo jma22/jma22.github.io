@@ -75,7 +75,7 @@
   <li>Loss: MSE + MAE</li>
   <li>SAGEm: SAGEconv with mean aggregation</li>
   <li>Edge: Edgeconv</li>
-  <b><li>Test: 3-32-16-4-1-3</li></b>
+  <b><li>Test: 3-32-16-4-1-3 [features]</li></b>
   <b><li>Narrow: 3-32-3</li></b>
   <b><li>Equal: 3-3-3-3-3</li></b>
 </ul>
@@ -84,7 +84,7 @@
     <p>Loss</p>
 </center>
 <hr>
-<p>Equals</p>
+<h3>Equals (3-3-3-3-3)</h3>
 <center>
     <img src = "../../media/motion/phase1/CP2/equalloss.png" width="600px" height="450px"></img> 
     <p>Equal Loss</p>
@@ -98,20 +98,59 @@
 </center>
 <hr>
 <center>
-    <video controls width="1000px" height="400px" autoplay = "autoplay" muted = "muted" loop = "loop">
+    <video width="1000px" height="400px" autoplay = "autoplay" muted = "muted" loop = "loop">
         <source src="../../media/motion/phase1/CP2/equalsagem.mp4"  type="video/mp4">
     </video>
     <p>sagem</p>
 </center>
 <hr>
-
-<h3> Narrows</h3>
-<p>- test if number of hidden units effect result</p>
-<p>edge </p>
-<p>sagem </p>
-
-
-
-<p> if doesntwork test amaller edgenet </p>
-<h2>Combinations with dense and dropout</h2>
-<p> Params: equal 3-3-3-3-3</p>
+<h3>Narrows (3-32-3)</h3>
+<center>
+    <img src = "../../media/motion/phase1/CP2/narrowloss.png" width="600px" height="450px"></img> 
+    <p>Narrow Loss</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/phase1/CP2/narrowedge.png" width="1000px" height="400px"></img> 
+    <p>edge </p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/phase1/CP2/narrowsagem.png" width="1000px" height="400px"></img> 
+    <p>sagem</p>
+</center>
+<hr>
+<h3>Test (3-32-16-4-1-3)</h3>
+<center>
+    <img src = "../../media/motion/phase1/CP2/testloss.png" width="600px" height="450px"></img> 
+    <p>Test Loss</p>
+</center>
+<hr>
+<center>
+    <video width="1000px" height="400px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../media/motion/phase1/CP2/testedge.mp4"  type="video/mp4">
+    </video>
+    <p>edge </p>
+</center>
+<hr>
+<center>
+    <video width="1000px" height="400px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../media/motion/phase1/CP2/testsagem.mp4"  type="video/mp4">
+    </video>
+    <p>sagem</p>
+</center>
+<p> I think edge seems to be the best convolution.</p>
+<hr>
+<h2>Combinations with dense</h2>
+<p>Test limits and ability of network architecture</p>
+<p>Try max pool?</p>
+<p>Specs:</p>
+<ul>
+  <li>Activation: Leaky relu </li>
+  <li>Loss: MSE + MAE</li>
+  <li>Conv: Edgeconv</li>
+  <b><li>Identity: 3x588-1764,no activation</li></b>
+  <b><li>Simple: 3x588-1x588-588-1764</li></b>
+  <b><li>Try: 3x588-3x588-1x588-256-256-512-1024-1764</li></b>
+</ul>
+<hr>
