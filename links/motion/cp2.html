@@ -134,13 +134,72 @@
 </center>
 
 <p>It seems like the GCNs are failing to get properties of sharp edges...</p>
-
 <hr>
+
 <h2>Other graph convs!</h2>
-<h3>EdgeConv</h3>
+<p> Trying new stuff...</p>
+<p> Params: 3-32-32-32-3, sage with leaky</p>
+<center>
+    <img src = "../../media/motion/typeloss.png" width="700px" height="400px"></img> 
+    <p>Loss</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/typeloss2.png" width="700px" height="500px"></img> 
+    <p>Closer look at loss</p>
+</center>
+<hr>
 <h3>SAGEConv</h3>
-<p>Mean, lstm,gcn</p>
-<h3>Graph attention networks</h3>
+<center>
+    <img src = "../../media/motion/sagem.png" width="1000px" height="400px"></img> 
+    <p>sage mean agg</p>
+    <p>L1Loss:0.004168</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/sageg.png" width="1000px" height="400px"></img> 
+    <p>sage GCN agg</p>
+    <p>L1Loss:0.01587</p>
+</center>
+<hr>
+<center>
+    <img src = "../../media/motion/sagel.png" width="1000px" height="400px"></img> 
+    <p>sage LSTM agg</p>
+    <p>L1Loss:0.005061</p>
+</center>
+<hr>
+<h3>EdgeConv</h3>
+<center>
+    <img src = "../../media/motion/edge.png" width="1000px" height="400px"></img> 
+    <p>edge conv </p>
+    <p>L1Loss:L1Loss:0.005223</p>
+</center>
+<hr>
+<h3>Graph attention networks 
+</h3>
+<center>
+    <img src = "../../media/motion/attention.png" width="1000px" height="400px"></img> 
+    <p>GAT conv 1-head </p>
+    <p>L1Loss:0.02380</p>
+</center>
+<p> Edge and sageM was able to do the trick</p>
 
 <hr>
-<h2>Combinations with dense?</h2>
+<h2>Shrink the net</h2>
+<p> Params: equal 3-3-3-3-3, narrow 3-32-3, test 3-32-16-4-1-3</p>
+<h3> Equals </h3>
+<p>- test if number of hidden units effect result</p>
+<p>edge L1Loss:0.005539144389331341</p>
+<p>sagem L1Loss:0.005539144389331341</p>
+<hr>
+
+<h3> Narrows</h3>
+<p>- test if number of hidden units effect result</p>
+<p>edge L1Loss:0.005539144389331341</p>
+<p>sagem L1Loss:0.005539144389331341</p>
+
+
+
+<p> if doesntwork test amaller edgenet </p>
+<h2>Combinations with dense and dropout</h2>
+<p> Params: equal 3-3-3-3-3</p>
