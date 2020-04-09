@@ -152,5 +152,71 @@
   <b><li>Identity: 3x588-1764,no activation</li></b>
   <b><li>Simple: 3x588-1x588-588-1764</li></b>
   <b><li>Try: 3x588-3x588-1x588-256-256-512-1024-1764</li></b>
+  <b><li>Trypool: 3x588-3x588-1x588-294(maxpool)-256-512-1024-1764</li></b>
 </ul>
 <hr>
+<center>
+    <img src = "../../media/motion/phase1/CP2/denseloss.png" width="600px" height="450px"></img> 
+    <p>Loss</p>
+</center>
+<p>They all work so nothing to see here</p>
+<hr>
+<h2>Smaller we go!</h2>
+
+<p>Specs:</p>
+<ul>
+    <li>Activation: Leaky relu </li>
+    <li>Loss: MSE + MAE</li>
+    <li>Conv: Edgeconv</li>
+    <b><li>Try128: 3x588-3x588-1x588-128-256-512-1024-1764</li></b>
+    <b><li>Try64: 3x588-3x588-1x588-64-128-256-512-1024-1764</li></b>
+    try10?
+  </ul>
+  <hr>
+  <center>
+    <img src = "../../media/motion/phase1/CP2/condense.png" width="600px" height="450px"></img> 
+    <p>Loss</p>
+</center>
+
+<p>Still works, nothing to see here</p>
+<hr>
+<h2>Edge without self</h2>
+
+<p>Specs:</p>
+<ul>
+    <li>Layers: 3-16-16-16-3</li>
+    <li>Loss: MSE + MAE</li>
+    <li>Conv: CustomEdgeconv</li>
+    <b><li>custom: linear activation</li></b>
+    <b><li>leakcustom: leakyrelu activation</li></b>
+  </ul>
+  <hr>
+  <center>
+      <video width="1000px" height="400px" autoplay = "autoplay" muted = "muted" loop = "loop">
+          <source src="../../media/motion/phase1/CP2/custom1.mp4"  type="video/mp4">
+      </video>
+      <p>Custom1: loss :0.303077</p>
+  </center>
+  <hr>
+  <center>
+      <video width="1000px" height="400px" autoplay = "autoplay" muted = "muted" loop = "loop">
+          <source src="../../media/motion/phase1/CP2/custom2.mp4"  type="video/mp4">
+      </video>
+      <p>Custom2: loss 0.31637</p>
+  </center>
+        <p>Both custom had similar results. They only learnt some cluster that minimizes loss no matter what.</p>
+        <hr>
+  <h2>Deeper messages</h2>
+
+  <p>Specs:</p>
+  <ul>
+    <li>Normal Message Layer: 3-16 Act: linear</li>
+    <b><li>Message Layer: 3-16-16-16 Act: leaky</li></b>
+      <li>Loss: MSE + MAE</li>
+      <li>Conv: CustomEdgeconv</li>
+      <b><li>Custom:3-16-3</li></b>
+      <b><li>deepCustom:3-16-16-16-3</li></b>
+      <b><li>denseCustom: Conv(3-16-16-1)-588-588-1764 act:leakyrelu</b>
+    </ul>
+    <hr>
+
