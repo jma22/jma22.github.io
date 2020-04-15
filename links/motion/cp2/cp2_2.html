@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../../links.css">
+</head>
+
+<body>
+  <h1>Checkpoint 3: Data?</h1>
+
+  <h2>K nearest neighbor</h2>
+  <p>So the variation was too high if we only use 'mesh adjacencies' as edges, so Ima try making k-nearest graphs for the cube</p>
+  <h3>Specs:</h3>
+  <ul>
+    <li>Layer: 3-64-64-3</li>
+    <li>Activation: Leakyrelu</li>
+      <li>Loss: MSE + MAE</li>
+      <li>Conv: GCNconv</li>
+      <b><li>k-n: Input graph has edges between node's n nearest neighbour spatially (each node has n edges)</li></b>
+    </ul>
+    
+    <hr>
+    <center>
+      <img src = "../../../media/motion/phase1/CP3/gcnloss.png" width="600px" height="450px"></img> 
+      <p>Loss</p>
+  </center>
+    <h3>Observations</h3>
+    <ul>
+      <li>Network does not get strictly better as number of edges increase</li>
+      <li>Output tends to a more rounded shape as edges in input increases</li>
+      <li>8 is best number?</li>
+      <li>GCNs trained with less edges can be generalized to some degree, but the converse does not</li>
+      <li>Note that GCNs were able to recreate the cube without having information of the original node, unlike other graph convs</li>
+    </ul>
+    
+
+    <hr>
+    <h2>GATgcns</h2>
+    <p>I thought attention mechanisms could help guide the neurons to pick the correct information when edges are dense. That didn't help since it picks features oops</p>
+    <ul>
+      <li>Layer: 3-64-64-3</li>
+      <li>Activation: Leakyrelu</li>
+        <li>Loss: MSE + MAE</li>
+        <li>Conv: GATconv</li>
+        <b><li>k-n: Input graph has edges between node's n nearest neighbour spatially (each node has n edges)</li></b>
+      </ul>
+      <center>
+        <img src = "../../../media/motion/phase1/CP3/gatloss.png" width="600px" height="450px"></img> 
+        <p>gatLoss</p>
+    </center>
+      <h3>Notation: </h3><p>
+
+        k<b>x</b>on<b>y</b> means netowrk was trained on graphs with x nearest neighbors, but input is y nearest neighbour</p>
+      <hr>
+      
+    <h2>Gallery</h2>
+    <p>GCN</p>
+    <div>
+    <button onclick="myFunction('k2on2')">k2on2</button>
+    <button onclick="myFunction('k2on8')">k2on8</button>
+    <button onclick="myFunction('k2on128')">k2on128</button>
+  </div>
+  <div>
+    <button onclick="myFunction('k8on1')">k8on1</button>
+    <button onclick="myFunction('k8on8')">k8on8</button>
+    <button onclick="myFunction('k8on128')">k8on128</button>
+  </div>
+  <div>
+    <button onclick="myFunction('k32on2')">k32on2</button>
+    <button onclick="myFunction('k32on32')">k32on32</button>
+    <button onclick="myFunction('k32on128')">k32on128</button>
+  </div>
+  <div>
+    <button onclick="myFunction('k128on2')">k128on2</button>
+    <button onclick="myFunction('k128on8')">k128on8</button>
+    <button onclick="myFunction('k128on128')">k128on128</button></div>
+    <p>GAT</p>
+
+    <div>
+      <button onclick="myFunction('gat8on8')">gat8on8</button>
+      <button onclick="myFunction('gat8on32')">gat8on32</button>
+      <button onclick="myFunction('gat8on128')">gat8on128</button>
+      </div>
+      <div>
+      <button onclick="myFunction('gat32on8')">gat32on8</button>
+      <button onclick="myFunction('gat32on32')">gat32on32</button>
+      <button onclick="myFunction('gat32on128')">gat32on128</button>
+    </div>
+    <div>
+      <button onclick="myFunction('gat128on8')">gat128on8</button>
+      <button onclick="myFunction('gat128on32')">gat128on32</button>
+      <button onclick="myFunction('gat128on128')">gat128on128</button>
+    </div>
+
+<hr>
+
+
+    <center style = "display:none" style = "display:none" id = "k2on2">
+      <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+          <source src="../../../media/motion/phase1/CP3/k2on2.mp4"  type="video/mp4">
+      </video>
+      <p>k2on2</p>
+      <hr>
+  </center>
+  <center style = "display:none" id = "k2on8">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/k2on8.mp4"  type="video/mp4">
+    </video>
+    <p>k2on8</p>
+    <hr>
+</center>
+<center style = "display:none" id = "k2on128">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/k2on128.mp4"  type="video/mp4">
+  </video>
+  <p>k2on128</p>
+  <hr>
+</center>
+<center style = "display:none" id = "k8on1">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/k8on1.mp4"  type="video/mp4">
+  </video>
+  <p>k8on1</p>
+  <hr>
+</center>
+<center style = "display:none" id = "k8on8">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/k8on8.mp4"  type="video/mp4">
+  </video>
+  <p>k8on8</p>
+  <hr>
+</center>
+<center style = "display:none" id = "k8on128">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/k8on128.mp4"  type="video/mp4">
+  </video>
+  <p>k8on128</p>
+  <hr>
+</center>
+<center style = "display:none" id = "k32on2">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/k32on2.mp4"  type="video/mp4">
+  </video>
+  <p>k32on2</p>
+  <hr>
+</center>
+<center style = "display:none" id = "k32on32">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/k32on32.mp4"  type="video/mp4">
+  </video>
+  <p>k32on32</p>
+  <hr>
+</center>
+<center style = "display:none" id = "k32on128">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/k32on128.mp4"  type="video/mp4">
+  </video>
+  <p>k32on128</p>
+  <hr>
+</center>
+<center style = "display:none" id = "k128on2">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/k128on2.mp4"  type="video/mp4">
+  </video>
+  <p>k128on2</p>
+  <hr>
+</center>
+<center style = "display:none" id = "k128on8">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/k128on8.mp4"  type="video/mp4">
+  </video>
+  <p>k128on8</p>
+  <hr>
+</center>
+<center style = "display:none" id = "k128on128">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/k128on128.mp4"  type="video/mp4">
+  </video>
+  <p>k128on128</p>
+  <hr>
+</center>
+<center style = "display:none" id = "gat8on8">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/gat8on8.mp4"  type="video/mp4">
+  </video>
+  <p>gat8on8</p>
+  <hr>
+</center>
+<center style = "display:none" id = "gat8on32">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/gat8on32.mp4"  type="video/mp4">
+  </video>
+  <p>gat8on32</p>
+  <hr>
+</center>
+<center style = "display:none" id = "gat8on128">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/gat8on128.mp4"  type="video/mp4">
+  </video>
+  <p>gat8on128</p>
+  <hr>
+</center>
+<center style = "display:none" id = "gat32on8">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/gat32on8.mp4"  type="video/mp4">
+  </video>
+  <p>gat32on8</p>
+  <hr>
+</center>
+<center style = "display:none" id = "gat32on32">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/gat32on32.mp4"  type="video/mp4">
+  </video>
+  <p>gat32on32</p>
+  <hr>
+</center>
+<center style = "display:none" id = "gat32on128">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/gat32on128.mp4"  type="video/mp4">
+  </video>
+  <p>gat32on128</p>
+  <hr>
+</center>
+<center style = "display:none" id = "gat128on8">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/gat128on8.mp4"  type="video/mp4">
+  </video>
+  <p>gat128on8</p>
+  <hr>
+</center>
+<center style = "display:none" id = "gat128on32">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/gat128on32.mp4"  type="video/mp4">
+  </video>
+  <p>gat128on32</p>
+  <hr>
+</center>
+<center style = "display:none" id = "gat128on128">
+  <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+      <source src="../../../media/motion/phase1/CP3/gat128on128.mp4"  type="video/mp4">
+  </video>
+  <p>gat128on128</p>
+  <hr>
+</center>
+
+
+
+
+
+<h2>Reconstruction</h2>
+<p>Tried dropout @ input- was bad, so reconstruction by changing input</p>
+
+<h3>One point </h3>
+    <ul>
+      <li>Layer: 4-64-64-3</li>
+      <b><li>Deep: 4-64-64-64-64-3</li></b>
+      <li>Activation: Leakyrelu</li>
+        <li>Loss: MSE + MAE</li>
+        <li>Conv: GCNconv</li>
+        <b><li>Randomly set one pixel to be missing every training, labelled as '0 0 0 1', as opposed to x y z 0</li></b>
+      </ul>
+      <center>
+        <img src = "../../../media/motion/phase1/CP3/recloss.png" width="800px" height="450px"></img> 
+        <p>Loss</p>
+    </center>
+  <hr>
+  <h3>Visibility </h3>
+  <ul>
+    <li>Layer: 3-64-64-3</li>
+    <li>Activation: Leakyrelu</li>
+      <li>Loss: MSE + MAE</li>
+      <li>Conv: GCNconv</li>
+      <b><li>Using raycast, set occluded points to be missing every training, labelled as '0 0 0 1', as opposed to x y z 0</li></b>
+    </ul>
+    <center>
+      <img src = "../../../media/motion/phase1/CP3/visloss.png" width="600px" height="450px"></img> 
+      <p>Loss</p>
+  </center>
+<hr>
+<h3>Visibility - deepness and edge test and gates</h3>
+<p>Theoretically, the deeper the convolution, the more neighbours could be reached. The number of edges around 8 also seem optimal so I am going to try 6 and 12.</p>
+<ul>
+  <b>  <li>Deep Layer: 3-64-64-64-64-64-64-64-3</li> </b>
+  <b>  <li>Shallow Layer: 3-64-3</li> </b>
+  <li>Activation: Leakyrelu</li>
+    <li>Loss: MSE + MAE</li>
+    <li>Conv: GCNconv</li>
+  </ul>
+  <center>
+    <img src = "../../../media/motion/phase1/CP3/visloss.png" width="600px" height="450px"></img> 
+    <p>Loss</p>
+</center>
+<hr>
+
+
+  <h2>Gallery</h2>
+  <p>one-point [Green is reconstructed]</p>
+  <div>
+  <button onclick="myFunction('4on4')">4on4</button>
+  <button onclick="myFunction('deep4on4')">deep4on4</button>
+  
+</div>
+<div>
+  <button onclick="myFunction('8on8')">8on8</button>
+  <button onclick="myFunction('deep8on8')">deep8on8</button>
+</div>
+<p>Visibility [Green is visible oops]</p>
+<div>
+  <button onclick="myFunction('vis8on8')">8on8</button>
+  <button onclick="myFunction('vis32on32')">32on32</button>
+  <button onclick="myFunction('vis128on128')">128on128</button>
+</div>
+
+  <center style = "display:none" id = "4on4">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/rec4on4.mp4"  type="video/mp4">
+    </video>
+    <p>4on4(one)</p>
+    <hr>
+  </center>
+  <center style = "display:none" id = "deep4on4">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/deep4on4.mp4"  type="video/mp4">
+    </video>
+    <p>deep4on4(one)</p>
+    <hr>
+  </center>
+  <center style = "display:none" id = "8on8">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/rec8on8.mp4"  type="video/mp4">
+    </video>
+    <p>8on8(one)</p>
+    <hr>
+  </center>
+  <center style = "display:none" id = "deep8on8">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/deeprec8on8.mp4"  type="video/mp4">
+    </video>
+    <p>deep8on8(one)</p>
+    <hr>
+  </center>
+  
+  <center style = "display:none" id = "vis8on8">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/vis8on8.mp4"  type="video/mp4">
+    </video>
+    <p>8on8(vis)</p>
+    <hr>
+  </center>
+  <center style = "display:none" id = "vis32on32">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/vis32on32.mp4"  type="video/mp4">
+    </video>
+    <p>32on32(vis)</p>
+    <hr>
+  </center>
+  <center style = "display:none" id = "vis128on128">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/vis128on128.mp4"  type="video/mp4">
+    </video>
+    <p>128on128(vis)</p>
+    <hr>
+  </center>
+  
+  
+
+
+
+<hr>
+  <h2>Different mesh</h2>
+
+
+
+    <h2>Addones</h2>
+    <p>Specs: </p>
+    <p> I tried adding 1s to the input lol </p>
+    <center>
+      <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+          <source src="../../../media/motion/phase1/CP3/addones.mp4"  type="video/mp4">
+      </video>
+      <p>Custom1: loss:0.303077</p>
+  </center>
+
+  
+  <script>
+    function myFunction(name) {
+      var x = document.getElementById(name);
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    </script>
+</body>    
