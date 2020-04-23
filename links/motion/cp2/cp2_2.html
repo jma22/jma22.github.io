@@ -282,7 +282,7 @@
 <ul>
   <b>  <li>Deep Layer: 3-64-64-64-64-64-64-64-3</li> </b>
   <b>  <li>Shallow Layer: 3-64-3</li> </b>
-  <li>Activation: Leakyrelu</li>
+  <li>Activation: Leakyrelu/ with gLu</li>
     <li>Loss: MSE + MAE</li>
     <li>Conv: GCNconv</li>
   </ul>
@@ -290,6 +290,12 @@
     <img src = "../../../media/motion/phase1/CP3/deeploss.png" width="600px" height="450px"></img> 
     <p>Loss</p>
 </center>
+<p> >Some observations: </p>
+<ul>
+  <li>the number of layers seem to determine the distance of propagation as seen from the difference between deep and Shallow</li>
+  <li>Gated linear units improve as connections increase?</li>
+  <li>Deeper12on12 failed when visible pixels were flipped</li>
+</ul>
 <hr>
 
 
@@ -309,6 +315,19 @@
   <button onclick="myFunction('vis8on8')">8on8</button>
   <button onclick="myFunction('vis32on32')">32on32</button>
   <button onclick="myFunction('vis128on128')">128on128</button>
+</div>
+<div>
+  <button onclick="myFunction('deeper12on12')">deeper12on12</button>
+  <button onclick="myFunction('shallow12on12')">shallow12on12</button>
+  <button onclick="myFunction('deeper12on12flip')">deeper12on12 flipped</button>
+</div>
+<div>
+  <button onclick="myFunction('shallow6on6')">shallow6on6</button>
+</div>
+<div>
+  <button onclick="myFunction('gate6on6')">gate6on6</button>
+  <button onclick="myFunction('gate6on12')">gate6on12</button>
+  <button onclick="myFunction('gate6on24')">gate6on24</button>
 </div>
 
   <center style = "display:none" id = "4on4">
@@ -361,6 +380,58 @@
     <p>128on128(vis)</p>
     <hr>
   </center>
+  <center style = "display:none" id = "deeper12on12">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/deeper12on12.mp4"  type="video/mp4">
+    </video>
+    <p>deeper 12on12</p>
+    <hr>
+  </center>
+  <center style = "display:none" id = "deeper12on12flip">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/deeper12on12flip.mp4"  type="video/mp4">
+    </video>
+    <p>deeper 12on12 flipped</p>
+    <hr>
+  </center>
+  <center style = "display:none" id = "shallow6on6">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/shallow6on6.mp4"  type="video/mp4">
+    </video>
+    <p>shallow 6on6 </p>
+    <hr>
+  </center>
+  <center style = "display:none" id = "shallow12on12">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/shallow12on12.mp4"  type="video/mp4">
+    </video>
+    <p>shallow 12on12 </p>
+    <hr>
+  </center>
+  <center style = "display:none" id = "gate6on6">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/gate6on6.mp4"  type="video/mp4">
+    </video>
+    <p>gate 6on6 </p>
+    <hr>
+  </center>
+  <center style = "display:none" id = "gate6on12">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/gate6on12.mp4"  type="video/mp4">
+    </video>
+    <p>gate 6on12 </p>
+    <hr>
+  </center>
+  
+  <center style = "display:none" id = "gate6on24">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP3/gate6on24.mp4"  type="video/mp4">
+    </video>
+    <p>gate 6on24 </p>
+    <hr>
+  </center>
+  
+  
   
   
 
