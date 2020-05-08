@@ -21,8 +21,7 @@ function onPlayerReady(event) {
 
 function seek(sec){
     if(player){
-        seconds += sec;
-        player.seekTo(seconds, true);
+        player.seekTo(sec, true);
     }
 
 }</script>
@@ -60,7 +59,7 @@ src="https://www.youtube.com/embed/v51ZlCkZuuI?enablejsapi=1">
 <hr>
 <h3>Order</h3>
 <ol>
-    <li>A0 (piano intro)</li>
+    <li onclick="seek(0)">A0 (piano intro)</li>
     <li>B1</li>
     <li>A1</li>
     <li>B2</li>
