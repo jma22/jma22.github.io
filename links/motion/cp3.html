@@ -111,22 +111,36 @@
 
       <p> time todebug</p>
       <h2>Spatial</h2>
-      <p> Reduce temporal to 1</p>
+      <p> Only spatial edges, lr down to 0.01 => 0.0001, no movement</p>
       <p>Specs:</p>
       <ul>
           <li>Layer size: 64</li>
           <li>Loss: MSE + MAE</li>
           <li>Conv: GCN</li>
           <b><li>Activation: Leakyrelu</li></b>
-          <b><li>Edges: s-s-t-s-s</li></b>
+          <b><li>Edges: s-s-s-s-s</li></b>
         </ul>
         <hr>
         <center>
           <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
-              <source src="../../media/motion/phase2/CP1/stsimp (2).mp4"  type="video/mp4">
+              <source src="../../media/motion/phase2/CP1/debug.mp4"  type="video/mp4">
           </video>
-          <p>st simp</p>
+          <p>No movementp</p>
         </center>
+        <p>Doesn't work hmm</p>
+        <hr>
+        
+      <p>Try with one frame only?</p>
+      <p>Specs:</p>
+      <ul>
+          <li>Layer size: 64</li>
+          <li>Loss: MSE + MAE</li>
+          <li>Conv: GCN</li>
+          <b><li>Activation: Leakyrelu</li></b>
+          <b><li>Edges: s-s-s-s-s</li></b>
+        </ul>
+        <hr>
+        
         <hr>
       
 <!-- <p><a href = "cp2/cp2_0.html">Checkpoint 1: GCNs</a></p> 

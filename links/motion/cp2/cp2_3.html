@@ -96,7 +96,47 @@
     <hr>
 </center>
 
+  <h2>Wider and down learning rate</h2>
 
+  <h3>Specs:</h3>
+  <ul>
+    <b><li>Layersize: wide:128</li></b>
+    <li>Activation: Leakyrelu</li>
+      <li>Loss: MSE + MAE</li>
+      <li>Conv: GCNconv</li>
+      <b><li>lr: 0.01 => 0.001</li></b>
+    </ul>
+    <hr>
+       <center>
+      <img src = "../../../media/motion/phase1/CP4/debugloss.png" width="700px" height="450px"></img> 
+      <p>Loss</p>
+  </center>
+  <hr>
+  <center style = "display:none" style = "display:none" id = "k256">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP4/widelrmonk (2).mp4"  type="video/mp4">
+    </video>
+    <p>widelr</p>
+    <hr>
+</center>
+
+  <h2>SAGEconv</h2>
+
+  <h3>Specs:</h3>
+  <ul>
+    <b><li>Layersize: wide:128</li></b>
+    <li>Activation: Leakyrelu</li>
+      <li>Loss: MSE + MAE</li>
+     <b><li>Conv: SAGEconv w/ mean</li></b>
+      <li>lr:0.001</li>
+    </ul>
+    <hr>
+
+
+
+
+
+    
 <script>
     function myFunction(name) {
       var x = document.getElementById(name);
