@@ -3,21 +3,18 @@
 
 <head>
     <link rel="stylesheet" href="./links.css">
-    <script src="https://www.youtube.com/player_api"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>      
     var player, seconds = 0;
 function onYouTubeIframeAPIReady() {
     console.log("player");
     player = new YT.Player('player', {
         events: {
-          'onReady': onPlayerReady
         }
       });
 }
 
-function onPlayerReady(event) {
-    event.target.playVideo();
-}
+
 
 
 function seek(sec){
