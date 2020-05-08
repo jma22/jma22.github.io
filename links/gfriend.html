@@ -5,30 +5,19 @@
     <link rel="stylesheet" href="./links.css">
     
     <script>      
-        var tag = document.createElement('script');
+    var player, seconds = 0;
+function onYouTubeIframeAPIReady() {
+    console.log("player");
+    player = new YT.Player('player', {
+        events: {
+          'onReady': onPlayerReady
+        }
+      });
+}
 
-        tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      var player;
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-          height: '390',
-          width: '640',
-          videoId: 'v51ZlCkZuu',
-          events: {
-            'onReady': onPlayerReady,
-          }
-        });
-      }
-
-      // 4. The API will call this function when the video player is ready.
-      function onPlayerReady(event) {
-        event.target.playVideo();
-      }
+function onPlayerReady(event) {
+    event.target.playVideo();
+}
 
 
 function seek(sec){
@@ -36,6 +25,7 @@ function seek(sec){
         seconds += sec;
         player.seekTo(seconds, true);
     }
+
 }</script>
 </head>
 
@@ -43,10 +33,9 @@ function seek(sec){
    
     
 <h2>Sunrise:</h2>
-<div id="player"></div>
-    <!-- <iframe id="player" width="420" height="315"
-src="https://www.youtube.com/embed/v51ZlCkZuuI">
-</iframe> -->
+    <iframe id="player" width="420" height="315"
+src="https://www.youtube.com/embed/v51ZlCkZuu?enablejsapi=1&origin=https%3A%2F%2Fjma22.github.io&widgetid=1">
+</iframe>
  <p><a href="https://www.youtube.com/watch?v=ixB2smNciUITime">link to time for the moon night</a></p>
 <h1>Analysis of sunrise</h1>
 <h2>Contents</h2>
