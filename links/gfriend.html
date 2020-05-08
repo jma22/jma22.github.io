@@ -3,27 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="./links.css">
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script>      
-    var player, seconds = 0;
-function onYouTubeIframeAPIReady() {
-    console.log("player");
-    player = new YT.Player('player', {
-        events: {
-        }
-      });
-}
 
-
-
-
-function seek(sec){
-    if(player){
-        seconds += sec;
-        player.seekTo(seconds, true);
-    }
-
-}</script>
 </head>
 
 <body>
@@ -31,7 +11,7 @@ function seek(sec){
     
 <h2>Sunrise:</h2>
     <iframe id="player" width="420" height="315"
-src="https://www.youtube.com/embed/v51ZlCkZuu?enablejsapi=1">
+src="https://www.youtube.com/embed/v51ZlCkZuu">
 </iframe>
  <p><a href="https://www.youtube.com/watch?v=ixB2smNciUITime">link to time for the moon night</a></p>
 <h1>Analysis of sunrise</h1>
