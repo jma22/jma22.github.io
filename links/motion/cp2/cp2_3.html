@@ -34,9 +34,59 @@
       <img src = "../../../media/motion/phase1/CP4/monkeyloss.png" width="700px" height="450px"></img> 
       <p>Loss</p>
   </center>
+   <h2>SAGEconv</h2>
+
+  <h3>Specs:</h3>
+  <ul>
+    
+    <li>Activation: Leakyrelu</li>
+      <li>Loss: MSE + MAE</li>
+     <b><li>Conv: SAGEconv w/ mean</li></b>
+      <li>lr:0.001</li>
+    </ul>
+    <hr>
+
+     <h2>Customconv</h2>
+
+  <h3>Specs:</h3>
+  <ul>
+    <li>Layersize: 64</li>
+    <li>Activation: Leakyrelu</li>
+      <li>Loss: MSE + MAE</li>
+     <b><li>Conv: cusomtconv - concat two node features and run network to compute message</li></b>
+      <li>lr:0.001</li>
+    </ul>
+    <hr>
+    <h2>RepeatCustomconv</h2>
+
+  <h3>Specs:</h3>
+  <ul>
+    <li>Layersize: 64</li>
+    <li>Activation: Leakyrelu</li>
+      <li>Loss: MSE + MAE</li>
+    <b> <li>Conv: cusomtconv - with shared weights </li></b>
+      <li>lr:0.001</li>
+    </ul>
+    <hr>
+       <h2>Repeatconv</h2>
+
+  <h3>Specs:</h3>
+  <ul>
+    <li>Layersize: 64</li>
+    <li>Activation: Leakyrelu</li>
+      <li>Loss: MSE + MAE</li>
+     <b><li>Conv: GCN - with shared weights</li></b>
+      <li>lr:0.001</li>
+    </ul>
+    <hr>
+    <center>
+      <img src = "../../../media/motion/phase1/CP4/finalloss.png" width="600px" height="450px"></img> 
+      <p>Loss</p>
+  </center>
+
     <h3>Observations</h3>
     <ul>
-      <li></li>
+      <li>it seems like the same layer could be reused</li>
     </ul>
     
     <hr>
@@ -49,8 +99,29 @@
     <button onclick="myFunction('k32')">k32</button>
     <button onclick="myFunction('k64')">k64</button>
     <button onclick="myFunction('k256')">k256</button>
+  </div>
+  <p>Custom</p>
+    <div>
+    <button onclick="myFunction('Custom')">Custom</button>
 
   </div>
+   <p>Sage</p>
+    <div>
+    <button onclick="myFunction('Sage')">Sage</button>
+
+  </div>
+   <p>repeatCust</p>
+    <div>
+    <button onclick="myFunction('repeatCust')">repeatCust</button>
+
+  </div>
+  </div>
+   <p>repeatGCN</p>
+    <div>
+    <button onclick="myFunction('repeatGCN')">repeatGCN</button>
+
+  </div>
+
   <hr>
   
   <center style = "display:none" style = "display:none" id = "k8">
@@ -74,6 +145,42 @@
     <p>k16_2</p>
     <hr>
 </center>
+<center style = "display:none" style = "display:none" id = "k32">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP4/monkey32_2.mp4"  type="video/mp4">
+    </video>
+    <p>k32</p>
+    <hr>
+</center>
+<center style = "display:none" style = "display:none" id = "repeatGCN">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP4/repeat (2).mp4" type="video/mp4">
+    </video>
+    <p>repeatGCN</p>
+    <hr>
+</center>
+<center style = "display:none" style = "display:none" id = "repeatCust">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP4/repeatcust.mp4" type="video/mp4">
+    </video>
+    <p>repeatCust</p>
+    <hr>
+</center>
+<center style = "display:none" style = "display:none" id = "Sage">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP4/sage16.mp4" type="video/mp4">
+    </video>
+    <p>Sage</p>
+    <hr>
+</center>
+<center style = "display:none" style = "display:none" id = "Custom">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP4/custom.mp4" type="video/mp4">
+    </video>
+    <p>Custom</p>
+    <hr>
+</center>
+
 <center style = "display:none" style = "display:none" id = "k32">
     <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
         <source src="../../../media/motion/phase1/CP4/monkey32_2.mp4"  type="video/mp4">
@@ -119,18 +226,6 @@
     <p>widelr</p>
     <hr>
 </center>
-
-  <h2>SAGEconv</h2>
-
-  <h3>Specs:</h3>
-  <ul>
-    <b><li>Layersize: wide:128</li></b>
-    <li>Activation: Leakyrelu</li>
-      <li>Loss: MSE + MAE</li>
-     <b><li>Conv: SAGEconv w/ mean</li></b>
-      <li>lr:0.001</li>
-    </ul>
-    <hr>
 
 
 

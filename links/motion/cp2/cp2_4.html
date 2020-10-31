@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../../links.css">
+</head>
+
+<body>
+  <h1>Checkpoint 5: Deepness and recurrence</h1>
+    <p>description here (normalized)</p>
+ <h2>Deepness issue</h2>
+ <p>I went back to cube and found nothing worked?</p>
+    <div>
+    <button onclick="myFunction('Failures')">Failures</button>
+  </div>
+  <center style = "display:none" style = "display:none" id = "Failures">
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP5/debugknn (2).mp4"  type="video/mp4">
+    </video>
+    <hr>
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+            <source src="../../../media/motion/phase1/CP5/CUBEFAIL2.mp4"  type="video/mp4">
+        </video>
+        <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP5/cubefail.mp4
+        "  type="video/mp4">
+    </video>
+    <hr>
+</center>
+<p> It seems like there is an issue with how deep the network goes.</p>
+<center>
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP5/4pass.mp4"  type="video/mp4">
+    </video>
+    <p>4 layers deep</p>
+</center>
+<center>
+    <video style="margin:-15%px" width="850px" height="350px" autoplay = "autoplay" muted = "muted" loop = "loop">
+        <source src="../../../media/motion/phase1/CP5/7pass.mp4"  type="video/mp4">
+    </video>
+    <p>7 layers deep</p>
+</center>
+<p>As demonstrated, if the network is not deep enough, there are pixels we are unable to get to.</p>
+<h2>Recurrence</h2>
+<p>StateGCN</p>
+<script>
+    function myFunction(name) {
+      var x = document.getElementById(name);
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    </script>
+    </body>
