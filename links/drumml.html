@@ -1,36 +1,194 @@
 <html>
 <head>
-  <link rel="stylesheet" href="./links.css">
+  <link rel="stylesheet" href="links.css">
+  <script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
     <h1>
-        Drums - ml </h1>
+        Drums </h1>
     <hr>
 
     <h2>tldr;</h2>
     <p> Machine generated drumbeats </p>
+    <p>
+        As a person who is trying to create new music, it is oftern difficult to create pieces out of thin air without inspiration. One possibility is to have some beat be played and trying to fill music to it. However this would require some sort of algoirthm that can create a non-repetitive yet consistent beat - let's try to do that through VAE and GANs!
+    </p>
 
-    <h2>Methodology</h2>
-    <ul>
-        <li>Autoencoder</li>
-        <li>Variational autoencoder</li>
 
-    </ul>
+    <h2> Data:</h2>
+    <p> 
+        I was able to get over 13.6 hours of drum beats in 1150 midi files from here <a href = "https://magenta.tensorflow.org/datasets/groove">linklonk </a>. The midi files are quite detailed with velocity and a fine level of temporal resolution. However I do not have the compute to utilize this fully, so instead we would have to preprocess the data slightly.
+    </p>
+    <center>
+        <img src = "../media/drums/data.png" width="75%" height="50%">      
+              
+        <img>  
+        <p>
+            Here's an example midi of the training data
+        </p>    
+    </center>
 
-    <h2> What I did</h2>
-    <p> I joined when most of the UI and gesture controls were created. So I had to design a backend with Google Action,Firebase and DialogFlow that can 
-        work with the React-based gesture controls.
+    <audio src="../media/drums/train.mp3"  type="audio/mpeg" controls></audio>
+    <p>
+        I did a couple things to make my life easier 
+        <ul>
+            <li> I discretized the time scale into sixteenth notes, meaning each measure has 16 discrete time points.</li>
+            <li> I only took the first 4 measures of each drum groove.</li>
+            <li> I grouped the different pitch values of percussion into 9 categories as follow:</li>
+            <ul>
+                <li>Bass: 36</li>
+                <li>Snare: 37,38,40</li>
+                <li>High tom: 48,50</li>
+                <li>Low mid tom: 45,47</li>
+                <li>High floor tom: 43,58</li>
+                <li>Open high hat: 46,26</li>
+                <li>Closed hi hat: 22,42,44</li>
+                <li>Crash cymbal: 49,52,55,57 </li>
+                <li>Ride Cymbal: 51,53,59</li>
+            </ul>
+        </ul>
     </p>
     <p>
-        I created basic commands to navigate between pages, but also multimodal commands such as 'openthis', to open a file a user is currently pointing at.
-        I also played around with the Prismatic API for creating AR content on a website.
+        As a result, I was able to one hot encode a 'note' as a vector of 9 1/0s, this allows the encoding of multiple simultaneous notes/ lack of note. And since there are only 16 notes in each measure, and 4 measures. My training input is simplified to be a constant size of 576.
     </p>
-    <p><a href = "https://lui-medialab.firebaseapp.com/">LUI website </a></p>
-    <br>
-    <p><a href = "https://github.com/LargeUserInterface/LUI"> GIT</a></p>
+    <p> So the above midi would translate into:</p>
+    <code>[0. 0. 0. 0. 0. 0. 1. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+        1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 1. 0. 0. 0. 0.
+        0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1.
+        0. 0. 0. 0. 0. 0. 1. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+        1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 1. 0. 0. 0. 0.
+        0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+        0. 0. 0. 0. 0. 0. 1. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+        1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 1. 0. 0. 0. 0.
+        0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1.
+        0. 0. 0. 0. 0. 0. 1. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+        1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 1. 0. 0. 0. 0.
+        0. 0. 1. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+        0. 0. 0. 0. 0. 0. 1. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+        1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 1. 0. 0. 0. 0.
+        0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1.
+        0. 0. 0. 0. 0. 0. 1. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+        1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 1. 0. 0. 0. 0.
+        0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+        0. 0. 0. 0. 0. 0. 1. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+        1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 1. 0. 0. 0. 0.
+        0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1.
+        0. 0. 0. 0. 0. 0. 1. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+        1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 1. 0. 0. 0. 0.
+        0. 0. 1. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+    </code>
+    <p>Which sounds like the following:</p>
+    <audio src="../media/drums/train2.mp3"  type="audio/mpeg" controls></audio>
+
+
+    <h2>Results?</h2>
+    <p>Before I hop into my results and methods, let's do a turing test! Here are two/three drum beats, one of which is human created and one is machine generated. Which one is which? Get to the end to find out :)</p>
+    <p>A</p>
+        <audio src="../media/drums/human.mp3"  type="audio/mpeg" controls> </audio>
+    <p>B</p>
+
+        <audio src="../media/drums/mlchopped.mp3"  type="audio/mpeg" controls>B</audio>
+
+
+    <hr>
+    <h2>Variational Autoencoders</h2>
+    <h3>Some details</h3>
+    <p>The general idea for autoencoders is to encode input into some lower dimensional hidden state, and then recreate the input from this hidden state. By doing so we have a 'compressed' representation of the input.</p>
+
+    <p>For variational autoencoders, the idea is the same, however our output of the encoder is a distribution, from which we sample the hidden state, we can force this distribution to be similar to a unit gaussian by using KL divergence as a loss. This forces out inputs to lie relatively close in the latent space.</p>
+    <p>Mathematically, for an input x, autoencoders have encoder e and decoder d, a hidden state z and output y.
+        $$z = e(x)$$
+        $$ y = d(z)$$ </p>
+    <p>
+        Variational encoders outputs b, which are parameters of the hidden distribution. For a gaussian this would be variance and mean. So
+        $$ p(z|x) = p(\cdot | b) = p(\cdot | e(x))$$
+        $$ y = d(z)$$
+    </p>
+    <h3>
+        Reparameterization trick
+    </h3>
+    <p> Since gradients can't be backpropped through 'sampling', one trick that is used is sampling a gaussian with mean \(\mu\) and variance \(\sigma\) by: $$z = \mu + \sigma N(0,1)$$ So now z is just a linear combination of the mean and variance.</p>
+    <h3>Loss derivation</h3>
+    <p>THere are two losses, kl_loss and reconstruction_loss. A key part of training VAEs is balancing these two.</p>
+    <p> Now once the input space can be successfully mapped to a gaussian-like distribution, we can just sample a gaussian to obtain some hidden state and decode it into an output!</p>
+    <h3>Encoder </h3>
+    <p>I first tried to keep stuff simple - I tried using 1D convolution to convolve measures (so windows of size 144), into a hidden state of size 32. However that did not work. The reconstruction loss plateaued at 0.22.</p>
+    <p>I then tried using LSTMs and treated each measure (144) as one time step, and passed them sequentially into the LSTM and used the final cell and hidden state to obtain b, however all in vain - the reconstruction loss still plateaus and the kl loss is near 0. I even tried to use beta-annealing and cyclical annealing on the weighting between kl and recons. (This is also known as mode collapse :))</p>
+    <center>
+        <img src = "../media/drums/convkl.png" width="75%" height="50%"> <img>  
+        <img src = "../media/drums/convrecons.PNG" width="75%" height="50%"><img>  
+    <p>losses</p>
+   
+        <img src = "../media/drums/anneal.png" width="30%" height="30%"> <img>  
+    <p>Annealing schedules</p>
+        </center>
+
+    <p>
+        Here's one example of mode collapse (which is the only sample since all inputs are basically decoded to the same value).
+    </p>
+        <audio src="../media/drums/bad.mp3"  type="audio/mpeg" controls></audio>
+        <hr>
+
+    <p>But then I have realized my mistake - the hidden state was too small. I changed the hidden state to 256 and tested the VAE with a kl weight of 0, so now we can slowly turn up the weight (should've done this oops) and voila</p>
 
     <center>
-        <video controls width="50%" height="50%">
-            <source src="../media/lui.mp4" type="video/mp4">
-        </video>
+        <img src = "../media/drums/goodkl.png" width="75%" height="50%"> <img>
+        <img src = "../media/drums/goodrecons.png" width="75%" height="50%"> <img> 
+        <p>The recons loss breaks 0.22 at a cost of a worse kl loss</p>
+
     </center>
+    <p>Since we also used a recurrent unit, we can also (technically) arbitrarily continue the beat. So here's some music:</p>
+    <audio src="../media/drums/ml.mp3"  type="audio/mpeg" controls></audio>
+    <audio src="../media/drums/vae1.mp3"  type="audio/mpeg" controls></audio>
+    <audio src="../media/drums/vae2.mp3"  type="audio/mpeg" controls></audio>
+    <audio src="../media/drums/vae3.mp3"  type="audio/mpeg" controls></audio>
+    <audio src="../media/drums/vae4.mp3"  type="audio/mpeg" controls></audio>
+    <audio src="../media/drums/vae5.mp3"  type="audio/mpeg" controls></audio>
+    <hr>
+
+
+
+
+    <h2>Generative-Adverserial networks </h2>
+    <h3>Details</h3>
+    <p>The idea of GANs are to train 2 networks concurrently. A generator is trained to create fake data from random noise z (N(0,1)), which is identical to the decoder for VAE. A discriminator is trained on a binary classification task between fake data created by the generator and true data, freezing one of them respectively during the training of the other.</p>
+    <    <p> Mathematically, $$ x_{fake} = G(z)$$ $$y = D(x)$$
+        Loss for discriminator would be (1=True, 0 = fake):
+            $$ylog(1-D({x}))+ (1-y)log(D({x}) = ylog(1-D(x_{real}))+ (1-y)log(D(G(z))$$
+        Loss for generator would be:
+        $$log(1-D(G(x))$$
+    </p>
+
+    <p> So the discriminator, trained on correct labels (let's say 1 for true data and  0 for fake data), would get better at distinguishing fake data and true data; the generator, trained on labels 1 for fake data (since we want the discrimanotr to output 1 for fake data) while freezing the discriminator.</p>
+    <p>Models</p>
+    <p>I used the same LSTM for VAE for decoder as the generator, however I used a bidrectional LSTM for the discriminator.</p>
+    <p>One trick I used is that for every step the discriminator take the generator takes 8 steps. However, the learning rate for the generator is 5 times less than the discriminator, so effectively the generator is taking more careful steps every iteration.</p>
+
+    <p>Resulting loss/accuracy plots</p>
+    <center>
+        <img src = "../media/drums/disloss.png" width="50%" height="50%"> <img>
+        <img src = "../media/drums/genloss.png" width="50%" height="50%"> <img> 
+        <p>You can see by the end the discriminator starts dominating the generator, but in between there is no clear winner.</p>
+    </center>
+
+    <p>Here are the drumbeats in 1200 training intervals</p>
+    <p>0 just a mess</p>
+    <audio src="../media/drums/gan0.mp3"  type="audio/mpeg" controls></audio>
+    <p>1200-3600 learning rhythm</p>
+
+    <audio src="../media/drums/gan1200.mp3"  type="audio/mpeg" controls></audio>
+    <audio src="../media/drums/gan2400.mp3"  type="audio/mpeg" controls></audio>
+    <audio src="../media/drums/gan3600.mp3"  type="audio/mpeg" controls></audio>
+    <p>4800 :o
+    </p>
+
+    <audio src="../media/drums/gan4800.mp3"  type="audio/mpeg" controls></audio>
+
+    
+
+
+    <hr>
+    <p> by the way B was machine generated! [It is also the first example in VAE]</p>
+
