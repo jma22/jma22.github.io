@@ -11,10 +11,10 @@
     <hr>
 
     <h2>tldr;</h2>
-    <p>Machine generated drumbeats </p>
+    <p>Machine generated drumbeats [Also a project for 21M.383 (Computational Music Theory)]</p>
     <h2>Motivation</h2>
     <p>
-        As a person who is trying to create new music, it is oftern difficult to create pieces out of thin air without inspiration. One possibility is to have some beat be played and trying to fill music to it. However this would require some sort of algoirthm that can create a non-repetitive yet consistent beat - let's try to do that through VAE and GANs!
+        As a person who is trying to create new music, it is often difficult to create pieces out of thin air without inspiration. One possibility is to have some beat be played and trying to fill music to it. However this would require some sort of algorithm that can create a non-repetitive yet consistent beat - let's try to do that through two deep learning techniques - Variational Auto Encoders(VAE) and Generative Adverserial Networks (GAN)!
     </p>
 
 
@@ -37,22 +37,58 @@
         <ul>
             <li> I discretized the time scale into sixteenth notes, meaning each measure has 16 discrete time points.</li>
             <li> I only took the first 4 measures of each drum groove.</li>
-            <li> I grouped the different pitch values of percussion into 9 categories as follow:</li>
-            <ul>
-                <li>Bass: 36</li>
-                <li>Snare: 37,38,40</li>
-                <li>High tom: 48,50</li>
-                <li>Low mid tom: 45,47</li>
-                <li>High floor tom: 43,58</li>
-                <li>Open high hat: 46,26</li>
-                <li>Closed hi hat: 22,42,44</li>
-                <li>Crash cymbal: 49,52,55,57 </li>
-                <li>Ride Cymbal: 51,53,59</li>
-            </ul>
-        </ul>
+            <li> I grouped the different midi pitch values of percussion into 9 categories as follow:</li>
+            <center>
+            <table style = "width:50%;font-family: verdana;">
+            <tr>
+                <th>Category</th>
+                <th>midi pitch numbers</th> 
+            </tr>
+            <tr>
+                <td>Bass</td>
+                <td>36</td>
+            </tr>
+            <tr>
+                <td>Snare</td>
+                <td>37,38,40</td>
+            </tr>
+            <tr>
+                <td>High tom</td>
+                <td>48,50</td>
+            </tr>
+            <tr>
+                <td>Low mid tom</td>
+                <td>45,47</td>
+            </tr>
+            <tr>
+                <td>High floor tom</td>
+                <td>43,58</td>
+            </tr>
+            <tr>
+                <td>Open high hat</td>
+                <td>46,26</td>
+            </tr>
+            <tr>
+                <td>Closed high hat</td>
+                <td>22,42,44</td>
+            </tr>
+            <tr>
+                 <td>Crash cymbal</td>
+                <td>49,52,55,57</td>
+            </tr>
+            <tr>
+                <td>Ride Cymbal</td>
+                <td>51,53,59</td>
+            </tr>
+
+            </table>
+            </center>
+
     </p>
     <p>
-        As a result, I was able to one hot encode a 'note' as a vector of 9 1/0s, this allows the encoding of multiple simultaneous notes/ lack of note. And since there are only 16 notes in each measure, and 4 measures. My training input is simplified to be a constant size of 576.
+        As a result, I was able to one hot encode a 'note' as a binary vector of size 9, this allows the encoding of multiple simultaneous notes/ lack of note. For example, a note with bass and a snare would be encoded as: 
+        <code> [1,1,0,0,0,0,0,0,0]</code></p>
+        <p>And since there are only 16 notes in each measure, and 4 measures. My training input is simplified to be a constant size of 576.
     </p>
     <p> So the above midi would translate into:</p>
     <code>[0. 0. 0. 0. 0. 0. 1. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
@@ -99,7 +135,7 @@
     <p>The general idea for autoencoders is to encode input into some lower dimensional hidden state, and then recreate the input from this hidden state. By doing so we have a 'compressed' representation of the input.</p>
 
     <p>For variational autoencoders, the idea is the same, however our output of the encoder is a distribution, from which we sample the hidden state, we can force this distribution to be similar to a unit gaussian by using KL divergence as a loss. This forces out inputs to lie relatively close in the latent space.</p>
-    <p>Mathematically, for an input x, autoencoders have encoder e and decoder d, a hidden state z and output y.
+    <p>Mathematically, for an input x, autoencoders have encoder \(e\) and decoder \(d\), a hidden state \(z\) and output \(y\).
         $$z = e(x)$$
         $$ y = d(z)$$ </p>
     <p>
@@ -110,20 +146,23 @@
     <h3>
         Reparameterization trick
     </h3>
-    <p> Since gradients can't be backpropped through 'sampling', one trick that is used is sampling a gaussian with mean \(\mu\) and variance \(\sigma\) by: $$z = \mu + \sigma N(0,1)$$ So now z is just a linear combination of the mean and variance.</p>
+    <p> Since gradients can't be backpropagated through 'sampling', one trick that is used is sampling a gaussian with mean \(\mu\) and variance \(\sigma\) by: $$z = \mu + \sigma N(0,1)$$ So now z is just a linear combination of the mean and variance.</p>
     <h3>Loss derivation</h3>
-    <p>THere are two losses, kl_loss and reconstruction_loss. A key part of training VAEs is balancing these two.</p>
+    <p>There are two losses, kl_loss and reconstruction_loss, the former responsible for the shape of the hidden distribution adn the latter responsible for the accuracy of the reconstruction. A key part of training VAEs is balancing these two.</p>
     <p> Now once the input space can be successfully mapped to a gaussian-like distribution, we can just sample a gaussian to obtain some hidden state and decode it into an output!</p>
     <h3>Encoder </h3>
-    <p>I first tried to keep stuff simple - I tried using 1D convolution to convolve measures (so windows of size 144), into a hidden state of size 32. However that did not work. The reconstruction loss plateaued at 0.22.</p>
-    <p>I then tried using LSTMs and treated each measure (144) as one time step, and passed them sequentially into the LSTM and used the final cell and hidden state to obtain b, however all in vain - the reconstruction loss still plateaus and the kl loss is near 0. I even tried to use beta-annealing and cyclical annealing on the weighting between kl and recons. (This is also known as mode collapse :))</p>
+    <p>I first tried to keep the implementation simple - I tried using 1D convolution to convolve measures (so windows of size 144), into a hidden state of size 32. However that did not work. The reconstruction loss plateaued at 0.22.</p>
+    <p>I then tried using Long-short term memory(LSTM)s and treated each measure (144) as one time step, and passed them sequentially into the LSTM and used the final cell and hidden state to obtain b, however all in vain - the reconstruction loss still plateaus and the kl loss is near 0. (This is also known as mode collapse) I even tried to use beta-annealing and cyclical annealing on the weighting between kl and recons. </p>
     <center>
-        <img src = "../media/drums/convkl.png" width="75%" height="50%"> <img>  
         <img src = "../media/drums/convrecons.PNG" width="75%" height="50%"><img>  
-    <p>losses</p>
+        <p>Reconstruction loss plateaus at 0.22 with 1D conv and LSTMs with different schedules</p>
+        <img src = "../media/drums/convkl.png" width="75%" height="50%"> <img>  
+        <p>kl loss</p>
+
+        
    
         <img src = "../media/drums/anneal.png" width="30%" height="30%"> <img>  
-    <p>Annealing schedules</p>
+    <p>Annealing schedules (cyclical red, beta blue)</p>
         </center>
 
     <p>
@@ -132,7 +171,7 @@
         <audio src="../media/drums/bad.mp3"  type="audio/mpeg" controls></audio>
         <hr>
 
-    <p>But then I have realized my mistake - the hidden state was too small. I changed the hidden state to 256 and tested the VAE with a kl weight of 0, so now we can slowly turn up the weight (should've done this oops) and voila</p>
+    <p>But then I have realized my mistake - the hidden state of 32 was too small. I changed the hidden state to 256 and tested the VAE with a kl weight of 0, so now we can slowly turn up the weight (should've done this oops) and voila</p>
 
     <center>
         <img src = "../media/drums/goodkl.png" width="75%" height="50%"> <img>
@@ -141,7 +180,7 @@
 
     </center>
     <h3>Results</h3>
-    <p>Since we also used a recurrent unit, we can also (technically) arbitrarily continue the beat. So here's some music:</p>
+    <p>Since we also used a recurrent unit, we can also (technically) arbitrarily continue the beat. So here's some music with varying lengths:</p>
     <audio src="../media/drums/ml.mp3"  type="audio/mpeg" controls></audio>
     <audio src="../media/drums/vae1.mp3"  type="audio/mpeg" controls></audio>
     <audio src="../media/drums/vae2.mp3"  type="audio/mpeg" controls></audio>
@@ -190,9 +229,16 @@
 
     <audio src="../media/drums/gan4800.mp3"  type="audio/mpeg" controls></audio>
 
-    
-
-
     <hr>
-    <p> by the way B was machine generated! [It is also the first example in VAE]</p>
+    
+    <h3>Future work!</h3>
+    <p>In this project I was able to create an algorithm that creates drum beats of arbitrary length 'out of thin air', however there are still places to be improved upon:</p>
+    <ul>
+        <li>Putting start and end codons to let the RNN decide when to stop</li>
+        <li>Allowing more drum variety, finer temporal resolution (swing) and velocity</li>
+        <li>Training to generate specfic styles of drum grooves using GANs</li>
+    </ul>
+    <hr>
+    <p>btw B was machine generated! [It is also the first example in VAE]</p>
+
 
