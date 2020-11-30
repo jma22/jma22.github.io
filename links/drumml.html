@@ -139,6 +139,7 @@
         <p>The recons loss breaks 0.22 at a cost of a worse kl loss</p>
 
     </center>
+    <h3>Results</h3>
     <p>Since we also used a recurrent unit, we can also (technically) arbitrarily continue the beat. So here's some music:</p>
     <audio src="../media/drums/ml.mp3"  type="audio/mpeg" controls></audio>
     <audio src="../media/drums/vae1.mp3"  type="audio/mpeg" controls></audio>
@@ -154,25 +155,27 @@
     <h2>Generative-Adverserial networks </h2>
     <h3>Details</h3>
     <p>The idea of GANs are to train 2 networks concurrently. A generator is trained to create fake data from random noise z (N(0,1)), which is identical to the decoder for VAE. A discriminator is trained on a binary classification task between fake data created by the generator and true data, freezing one of them respectively during the training of the other.</p>
-    <    <p> Mathematically, $$ x_{fake} = G(z)$$ $$y = D(x)$$
+        <p> Mathematically, $$ x_{fake} = G(z)$$ $$y = D(x)$$
         Loss for discriminator would be (1=True, 0 = fake):
             $$ylog(1-D({x}))+ (1-y)log(D({x}) = ylog(1-D(x_{real}))+ (1-y)log(D(G(z))$$
         Loss for generator would be:
         $$log(1-D(G(x))$$
     </p>
 
-    <p> So the discriminator, trained on correct labels (let's say 1 for true data and  0 for fake data), would get better at distinguishing fake data and true data; the generator, trained on labels 1 for fake data (since we want the discrimanotr to output 1 for fake data) while freezing the discriminator.</p>
-    <p>Models</p>
+    <p>So the discriminator, trained on correct labels (let's say 1 for true data and  0 for fake data), would get better at distinguishing fake data and true data; the generator, trained on labels 1 for fake data (since we want the discrimanotr to output 1 for fake data) while freezing the discriminator.</p>
+    <h3>Models and training</h3>
     <p>I used the same LSTM for VAE for decoder as the generator, however I used a bidrectional LSTM for the discriminator.</p>
     <p>One trick I used is that for every step the discriminator take the generator takes 8 steps. However, the learning rate for the generator is 5 times less than the discriminator, so effectively the generator is taking more careful steps every iteration.</p>
 
-    <p>Resulting loss/accuracy plots</p>
+    <h3>Resulting loss/accuracy plots</h3>
     <center>
         <img src = "../media/drums/disloss.png" width="50%" height="50%"> <img>
         <img src = "../media/drums/genloss.png" width="50%" height="50%"> <img> 
         <p>You can see by the end the discriminator starts dominating the generator, but in between there is no clear winner.</p>
     </center>
 
+    <hr>
+    <h3>Results</h3>
     <p>Here are the drumbeats in 1200 training intervals</p>
     <p>0 just a mess</p>
     <audio src="../media/drums/gan0.mp3"  type="audio/mpeg" controls></audio>
