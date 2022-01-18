@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="./links.css">
+</head>
+<body>
+    <h1>
+        Dance Dance Revolution - Foil Edition </h1>
+    <hr>
+
+    <h2>tldr;</h2>
+        <p class="text">Wanted to play DDR durgin the pandemic so created a DDR console using aluminum foil using an Intel 8051 microcontroller [ASM] and CyPress PSoC [C] for Microcomputer Project Laboratory [6.115]</p>
+    
+    <h2>Video Demo</h2>
+    <a href = "https://youtu.be/lGGdTS5MYy0"><p class = "text" > linklonk</p></a>
+    <h2>Paper</h2>
+    <a href = "../media/6115/115_paper.pdf"><p class = "text" > linklonk</p></a>    
+    <hr>
+    <h2>Summary</h2>
+        <p class="text"> I go into more details in the paper but here's the gist of the project</p>
+        <h3>Music</h3>
+        <p class="text">By hardcoding the frequency and duration of notes, I used an opamp and a DAC connected to the PSoC stick to play a version of Everytime we touch. </p>
+        <h3>Input</h3>
+        <p class="text"> By putting foil on socks and the floor, I created makeshift switches which are connected to the intel 8051, it then debounces and detects state changes.</p>
+        <h3>Display/Game Engine</h3>
+        <p class="text"> The PSOC acts as an engine, taking in inputs and interupts from the 8051 and sends interupts to the PSoc Stick (music). It also displays the game on a tft display. This way the music and input sensing does not affect the main gameplay loop.</p>
+
+    <h2>Key Figures</h2>
+    <center>
+        <img src = "../media/6115/Hard.png" width="40%" height="40%">        
+        <img>   
+        <img src = "../media/6115/Softflow.png" width="40%" height="40%">      
+        <img>   
+        <p>Hardware and software flowchart</p>
+    </center><br>
+    <center>
+        
+    </center>
+    <center>
+        <img src = "../media/6115/schematic.PNG" width="50%" height="50%">      
+        <img>   
+        <p>Overall Schematic</p>
+    </center>
+
+
+
+    
+
+
+
+
+
+
+</body>
+
+</html>
