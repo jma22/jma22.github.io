@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="./links.css">
+</head>
+<body>
+    <h1>The CLIP Octopus</h1>
+    <hr>
+
+    <h2>tldr;</h2>
+        <p class="text">A class project that trains an RL robot that can change color and shape to mimic a concept/object we give it.</p>
+
+        Put tldr picture here
+
+
+    <h2>Paper</h2>
+        <a href = "../media/clip/The_CLIP_Octopus.pdf"><p class = "text" > linklonk</p></a>
+    
+        <h2>Presentation</h2>
+        <a href = "https://docs.google.com/presentation/d/15GEWRWkJ4F4jJfs5TBza4_rlK5g1hn91Y0SiXAEZtjU/edit?usp=sharing">linklonk</a>
+    <h2> Summary </h2>
+    <h3>Model training</h3>
+        <ol>
+            <li>Created data agnostic framework (<i>StreamLoader</i>) to present temporally coherent streams of data.</li><br>
+        </ol>
+    <h3>Takeaway</h3>
+    <p class="text"> </p>
+    <hr>
+    <h2> Key Figures</h2>
+    <center>
+        <img src = "../media/958/fig.png" width="50%" height="50%">        
+        <img>   
+    </center><br>
+    <center>
+        
+        <img src = "../media/958/fig2.png" width="50%" height="50%">      
+              
+        <img>   
+    </center>
+
+    <h2>Abstract</h2>
+    <p class="text">Task specification is hard. Current methods in robot learning require either hand-
+        tuned reward functions for reinforcement learning or expert-generated demonstra-
+        tions for offline learning—neither of which are easily specified by an end user.
+        One pathway towards developing more human intuitive methods of goal specifi-
+        cation is to leverage the capabilities of CLIP, a large-scale vision-language model
+        pre-trained on millions of natural examples. In this work, we aim to utilize the
+        translation capabilities of CLIP to relate language, a natural avenue for human task
+        specification, to images, a form that all robot states can be expressed as. We use
+        cosine similarity between the two as a common language, or proxy reward, to train
+        a “Snake” robot to maneuver itself into resembling various visual concepts defined
+        by an end user. Specifically, we explore how to best utilize a potentially rich and
+        dense reward signal generated automatically by CLIP in order to best design a
+        visually expressive robot capable of taking on the form of a specification expressed
+        by a human using natural language alone. We explore various prompting strategies,
+        losses, reward densities, and robot configurations and find that CLIP can indeed be
+        used as an effective reward signal for training an off-the-shelf RL algorithm.</p>
+</body>
+
+</html>
