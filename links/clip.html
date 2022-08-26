@@ -10,33 +10,50 @@
     <h2>tldr;</h2>
         <p class="text">A class project that trains an RL robot that can change color and shape to mimic a concept/object we give it.</p>
 
-        Put tldr picture here
+        <center>
+                <img src = "../media/clip/ani.gif" width="20%" height="20%" vertical-align= "top">        
+        </img>  
+                <p>Animation of "snake" color and position changing</p> 
+        </center>
+        <center>
+            <img src = "../media/clip/results.png" width="75%" height="75%" >        
+        </img>  
+        <p>Resulting images</p>
+    </center><br>
+    <hr>
+
 
 
     <h2>Paper</h2>
         <a href = "../media/clip/The_CLIP_Octopus.pdf"><p class = "text" > linklonk</p></a>
     
         <h2>Presentation</h2>
-        <a href = "https://docs.google.com/presentation/d/15GEWRWkJ4F4jJfs5TBza4_rlK5g1hn91Y0SiXAEZtjU/edit?usp=sharing">linklonk</a>
+        <a href = "https://docs.google.com/presentation/d/15GEWRWkJ4F4jJfs5TBza4_rlK5g1hn91Y0SiXAEZtjU/edit?usp=sharing"><p class = "text" > linklonk</p></a>
     <h2> Summary </h2>
     <h3>Model training</h3>
         <ol>
-            <li>Created data agnostic framework (<i>StreamLoader</i>) to present temporally coherent streams of data.</li><br>
+            <li>CLIP is a model that measures similarity between images and prompts</li>
+            <li>Used CLIP to convert natural language into a reward signal to train an agent to maximize it's rendered image and the CLIP prompt</li>
+            <li>This leads to simple task specification without manual fine tuning</li>
         </ol>
     <h3>Takeaway</h3>
-    <p class="text"> </p>
+    <p class="text">This approach does not only outperform conventional pixel matching approaches in terms of convergence, but it also provides the agent with the flexibility to explore the whole manifold of shapes that matches the prompt.</p>
     <hr>
     <h2> Key Figures</h2>
     <center>
-        <img src = "../media/958/fig.png" width="50%" height="50%">        
+        <img src = "../media/clip/graphs.png" width="75%" height="75%">        
         <img>   
     </center><br>
     <center>
-        
-        <img src = "../media/958/fig2.png" width="50%" height="50%">      
-              
+        <img src = "../media/clip/pipe.png" width="75%" height="75%">        
         <img>   
-    </center>
+    </center><br>
+ 
+    <center>
+        <img src = "../media/clip/results2.png" width="75%" height="75%">        
+        <img>   
+    </center><br>
+    
 
     <h2>Abstract</h2>
     <p class="text">Task specification is hard. Current methods in robot learning require either hand-

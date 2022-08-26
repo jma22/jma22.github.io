@@ -10,6 +10,13 @@
     <h2>tldr;</h2>
         <p class="text">A class project to have a bunny burn in real time</p>
 
+    <h2>Video</h2>
+    <center>
+        <video controls width="50%" height="50%">
+            <source src="../media//burn.mp4" type="video/mp4">
+        </video>
+    </center>
+
     <h2>Paper</h2>
         <a href = "../media/graphics/Real Time Mesh Combustion (1).pdf"><p class = "text" > linklonk</p></a>
     
@@ -18,14 +25,15 @@
     <h2> Summary </h2>
     <h3>What</h3>
         <ol>
-            <li>Created data agnostic framework (<i>StreamLoader</i>) to present temporally coherent streams of data.</li><br>
+            <li>Simulated burning away of mesh by maintaining a queue of burnable traingles - similar to BFS</li>
+            <li>Used Navier Stokes to simulate realistic motion of flame particles along with RK-4 integrator</li>
+            <li>Track innermost zone of flame with a running average</li>
+            <li>Use innermost zone and lifetime of particles to determine realistic color of particles</li>
+            <li>Use alpha blending to simulate particle fading</li>
         </ol>
     <h3>Takeaway</h3>
-    <p class="text"> </p>
+    <p class="text"> Real time combustion achieved - no pre rendering needed </p>
     <hr>
-    <h2> Key Figures</h2>
-
-    https://youtu.be/rto1ULeoLBk
 
     
 </body>
